@@ -6,8 +6,7 @@ PX4는 다른 입력과 출력 방식의 마운트/짐벌 컨트롤 드라이버
 
 ## 파라미터
 
-[src/drivers/vmount/vmount_params.c](https://github.com/PX4/Firmware/blob/master/src/drivers/vmount/vmount_params.c)에 파라미터들이 있습니다. 가장 중요한 것은 input (`MNT_MODE_IN`) 과 output (`MNT_MODE_OUT`) 모드입니다. 기본으로 input은 비활성화되어 있습니다. input 방식은 유효한 output------
-The most important ones are the input (`MNT_MODE_IN`) and the output (`MNT_MODE_OUT`) mode. By default, the input is disabled. Any input method can be selected to drive any of the available outputs.
+[src/drivers/vmount/vmount_params.c](https://github.com/PX4/Firmware/blob/master/src/drivers/vmount/vmount_params.c)에 파라미터들이 있습니다. 가장 중요한 것은 input (`MNT_MODE_IN`) 과 output (`MNT_MODE_OUT`) 모드입니다. 기본으로 input은 비활성화되어 있습니다. input 방식은 유효한 output으로 선택할 수 있습니다.
 
 mavlink input mode가 선택된 경우, manual RC input은 추가 (`MNT_MAN_CONTROL`)에서 활성화될 수 있습니다. mavlink 메시지를 아직 받지 않은 경우거나 mavlink가 명시적으로 RC mode를 요청한 경우에 활성화됩니다.
 
