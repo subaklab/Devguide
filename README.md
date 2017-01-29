@@ -1,13 +1,13 @@
-# PX4 Development Guide
+# PX4 개발 길잡이
 
-> **Info** Developers only! This guide is under active development and not intended for consumers.
+> **정보** 대상자 대상! 이 길잡이 문서는 계속 작업 중이며 일반 사용자를 위한 문서는 아닙니다.
 
-This guide describes how to work inside the PX4 system architecture. It enables developers to:
+이 문서에서 PX4 시스템 구조내부가 어떻게 동작하는지를 설명합니다. 다음과 같은 내용이 있습니다.This guide describes how to work inside the PX4 system architecture. It enables developers to:
 
-* Get an [overview of the system](starting-initial-config.md)
-* Access and modify the [PX4 Flight Stack](concept-flight-stack.md) and [PX4 Middleware](concept-middleware.md)
-* Deploy PX4 on [Snapdragon Flight](hardware-snapdragon.md), [Pixhawk](hardware-pixhawk.md) and [Pixfalcon](hardware-pixfalcon.md)
+* [시스템 개요](starting-initial-config.md)
+* [PX4 Flight Stack](concept-flight-stack.md)과 [PX4 Middleware](concept-middleware.md)
+* [Snapdragon Flight](hardware-snapdragon.md), [Pixhawk](hardware-pixhawk.md) and [Pixfalcon](hardware-pixfalcon.md)에서 PX4
 
-## License
+## 라이센스
 
-The PX4 Development Guide is available under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) license. See our [Github Repository](https://github.com/PX4/Devguide) for more details.
+PX4 개발 길잡이는 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) 라이센스를 따릅니다. 보다 자세한 내용은 [Github Repository](https://github.com/PX4/Devguide)을 참고하세요.
