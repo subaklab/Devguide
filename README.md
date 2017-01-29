@@ -1,9 +1,8 @@
 # PX4 개발 길잡이
 
-> **정보** 대상자 대상! 이 길잡이 문서는 계속 작업 중이며 일반 사용자를 위한 문서는 아닙니다.
+> **정보** 대상자를 위한 자료입니다! 이 길잡이 문서는 계속 작업 중이며 일반 사용자를 위한 문서는 아닙니다.
 
-이 문서에서 PX4 시스템 구조내부가 어떻게 동작하는지를 설명합니다. 다음과 같은 내용이 있습니다.This guide describes how to work inside the PX4 system architecture. It enables developers to:
-
+이 문서에서 PX4 시스템 구조내부가 어떻게 동작하는지를 설명합니다. 다음과 같은 내용이 있습니다. 개발자는 다음과 같은 정보를 얻을 수 있습니다.
 * [시스템 개요](starting-initial-config.md)
 * [PX4 Flight Stack](concept-flight-stack.md)과 [PX4 Middleware](concept-middleware.md)
 * [Snapdragon Flight](hardware-snapdragon.md), [Pixhawk](hardware-pixhawk.md) and [Pixfalcon](hardware-pixfalcon.md)에서 PX4
