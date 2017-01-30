@@ -1,17 +1,17 @@
-# Optical Flow and LIDAR
+# Optical Flow와 LIDAR
 ----------------------------------------------------
 
-This page shows you how to set up the PX4Flow and a LIDAR distance measurement device for position estimation. Using a LIDAR device is not necessary if you use the LPE estimator described below since the PX4FLOW has a sonar, but LIDAR does improve performance.
+이 페이지에서 position estimation을 위해 PX4Flow와 LIDAR 거리 측정 장치를 셋업하는 방법에 대해서 알아봅니다. LPE estimator를 사용한다면 LIDAR 장치를 사용할 필요가 없습니다. 왜냐하면 PX4FLOW는 sonar가 있기 때문입니다. 그래도 LIDAR를 사용하면 성능을 개선할 수 있습니다.
 
-## Selecting an Estimator
+## Estimator 선택하기
 --------------------------------------------------------
 
-Two estimators support optical flow based navigation, LPE and INAV. There are benefits to both, but LPE is currently recommended for new users as it has the most testing and is the most robust. INAV uses slightly less CPU.
+2가지 estimator인 LPE와 INAV는 navigation 기반의 optical flow를 지원합니다. LPE는 새로 시작하는 사용자에게 추천하는데 이유는 테스팅을 가장 많이 했고 가장 안정적입니다. INAV는 CPU를 약간 적게 사용합니다.
 
-Use the `SYS_MC_EST_GROUP` parameter to select the estimator and then reboot.
+`SYS_MC_EST_GROUP` 파라미터를 이용해서 estimator를 선택하고 나서 리부팅합니다.
 
 
-## Hardware
+## 하드웨어
 --------------------------------------------------------
 
 ![](images/hardware/px4flow_offset.png)
@@ -74,10 +74,10 @@ All the parameters can be changed in QGroundControl
 LPE is an Extended Kalman Filter based estimator for position and velocity states. It uses inertial navigation and is similar to the INAV estimator below but it dynamically calculates the Kalman gain based on the state covariance. It also is capable of detecting faults, which is beneficial for sensors like sonar which can return invalid reads over soft surfaces.
 
 ### Flight Video Indoor
-{% youtube %}https://www.youtube.com/watch?v=CccoyyX-xtE{% endyoutube %} 
+{% youtube %}https://www.youtube.com/watch?v=CccoyyX-xtE{% endyoutube %}
 
 ### Flight Video Outdoor
-{% youtube %}https://www.youtube.com/watch?v=Ttfq0-2K434{% endyoutube %} 
+{% youtube %}https://www.youtube.com/watch?v=Ttfq0-2K434{% endyoutube %}
 
 For outdoor autonmous missions with LPE estimator, see tutorial on (Optical Flow Outdoors)[./optical-flow-outdoors.md]
 
@@ -103,10 +103,10 @@ INAV has a fixed gain matrix for correction and can be viewed as a steady state 
 
 
 ### Flight Video Indoor
-{% youtube %}https://www.youtube.com/watch?v=MtmWYCEEmS8{% endyoutube %} 
+{% youtube %}https://www.youtube.com/watch?v=MtmWYCEEmS8{% endyoutube %}
 
 ### Flight Video Outdoor
-{% youtube %}https://www.youtube.com/watch?v=4MEEeTQiWrQ{% endyoutube %} 
+{% youtube %}https://www.youtube.com/watch?v=4MEEeTQiWrQ{% endyoutube %}
 
 
 ### Parameters
