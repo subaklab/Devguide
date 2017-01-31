@@ -1,27 +1,27 @@
-# Lightware SF1XX lidar setup
+# Lightware SF1XX lidar 셋업
 ----------------------------------------------------
 
-This page shows you how to set up one of following lidars:
+이 페이지에서 아래 lidar들을 셋업하는 방법에 대해서 알아봅니다:
  1. SF10/a
  2. SF10/b
  3. SF10/c
  4. SF11/c
 
-Driver supports only i2c connection.
+드라이버는 i2c 연결만 지원합니다.
 ![](images/hardware/sf1xx_i2c.jpg)
 
-## Configuring lidar
+## lidar 설정하기
 --------------------------------------------------------
 
-You should connect to sensor via usb (it has internal usb to serial converter), run terminal, press `space` and check that i2c address equal to `0x66`.
-Newer sensor versions already have `0x66` preconfigured. Older have `0x55` which conflicts with `rgbled` module.
+usb를 이용해서 센서에 연결하고 터미널을 실행한 후, `space`를 누르고 i2c 주소가 `0x66`인지 확인합니다.
+새로나온 센서는 이미 `0x66`으로 미리 설정되어 있습니다. 예전 버전은 `0x55`로 `rgbled` 모듈과 충돌이 납니다.
 
 
-## Configuring PX4
+## PX4 설정하기
 --------------------------------------------------------
 
-Use the `SENS_EN_SF1XX` parameter to select the lidar model and then reboot.
-* `0` lidar disabled
+`SENS_EN_SF1XX` 파라미터를 이용해서 lidar 모델을 선택하고 리부팅합니다.
+* `0` lidar 비활성
 * `1` SF10/a
 * `2` SF10/b
 * `3` SF10/c
