@@ -1,51 +1,36 @@
-# System-wide Replay
-Based on ORB messages, it's possible to record and replay arbitrary parts of the
-system. For this to work, the new logger needs to be enabled (`SYS_LOGGER` set
-to 1).
+# 시스템 수준에서 재연 (System-wide Replay)
+ORB 메시지를 바탕으로 시스템 특정 부분의 동작을 기록하고 이를 재연하는 것이 가능합니다. 이를 가능하게 하기 위해서 새로운 logger를 활성화시켜야 합니다.(`SYS_LOGGER`를 1로 설정)
 
-Replay is useful to test the effect of different parameter values based on real
-data, compare different estimators, etc.
+재연은 실제 데이터를 기반으로 다른 파라미터 값의 영향을 테스트하는데 효과적입니다. 다른 estimator들을 비교할 수도 있습니다.
 
-## Prerequisites
-The first thing that needs to be done is to identify the module or modules that
-should be replayed. Then, all the inputs to these modules, i.e. subscribed ORB
-topics. For system-wide replay, this consists of all hardware input: sensors, RC
-input, mavlink commands and file system.
+## 전제조건
+가장 먼저 해야하는 일은 재연해야 하는 모듈을 구별해내는 것입니다.
+다음으로 이 모듈의 들어오는 모든 입력을 아는 것입니다.(subscribed ORB topic을 통해서) 시스템 규모에서 재연을 위해서는 모든 하드웨어 입력 즉 센서, RC 입력, mavlink 명령, 파일 시스템이 필요합니다.
 
-All identified topics need to be logged at full rate (see
-[logging](advanced-logging.md)). For `ekf2` this is already the case with the
-default set of logged topics.
+구별가능한 모든 topic들은 최대 rate로 로그를 남겨야 합니다.([logging](advanced-logging.md) 참고) `ekf2` 경우에는 이미 기본적으로 관련 topic에 대해서 로그를 남기고 있습니다.
 
-It is important that all replayed topics contain only a single absolute
-timestamp, which is the automatically generated field `timestamp`. Should there
-be more timestamps, then they must be relative with respect to the main
-timestamp. For an example, see
-[sensor_combined.msg](https://github.com/PX4/Firmware/blob/master/msg/sensor_combined.msg).
-Reasons for this are given below.
+재연하는 모든 topic은 단일 timestamp를 사용하는 것이 중요합니다. `timestamp` 필드에 자동으로 생성됩니다. 더 많은 timestamp가 있어야 한다면, main timestamp와 관련되어 있어야 합니다. 예제로 [sensor_combined.msg](https://github.com/PX4/Firmware/blob/master/msg/sensor_combined.msg)를 참고하세요.
+이에 대한 이유는 아래에서 설명합니다.
 
 
-## Usage
+## 사용
 
-- First, choose the file to replay, and build the target (from within the
-  Firmware directory):
+- 먼저 재연할 파일을 선택하고 타겟(Firmware 디렉토리 내에 있는)을 빌드합니다.
 ```sh
 export replay=<absolute_path_to_log_file.ulg>
 make posix_sitl_default
 ```
-  This will create the output in a separate build directory
-  `build_posix_sitl_default_replay` (so that the parameters don't interfere with
-  normal builds). It's possible to choose any posix SITL build target for
-  replay, the build system knows through the `replay` environment variable that
-  it's in replay mode.
-- Add ORB publisher rules file in
-  `build_posix_sitl_default_replay/tmp/rootfs/orb_publisher.rules`.
-  This file defines which module is allowed to publish which messages. It has
-  the following format:
+  여기서는 `build_posix_sitl_default_replay`라는 별도의 빌드 디렉토리에 결과물을 생성합니다. (이 파라미터는 일반 빌드에 영향을 주지 않음) 재연을 위해 posix SITL build target을 선택하는 것이 가능합니다. 빌드 시스템은 `replay` 환경변수를 통해 현재 재연 모드에 있는지 알 수 있습니다.
+- ORB publisher rule 파일을
+  `build_posix_sitl_default_replay/tmp/rootfs/orb_publisher.rules`에 추가합니다.
+  이 파일은 어떤 모듈이 어떤 메시지를 publish하도록 허용하는지 정의합니다.
+  다음과 같은 포맷으로 :
 ```
 restrict_topics: <topic1>, <topic2>, ..., <topicN>
 module: <module>
 ignore_others: <true/false>
 ```
+  
   It means that the given list of topics should only be published by `<module>`
   (which is the command name). Publications to any of these topics from another
   module are silently ignored. If `ignore_others` is `true`, then publications
@@ -126,4 +111,3 @@ described above. They are only compiled for the posix SITL targets.
 
 
 The **time handling** is still an **open point**, and needs to be implemented.
-
