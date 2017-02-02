@@ -1,3 +1,3 @@
-# Snapdragon: Camera and Optical Flow
+# Snapdragon: 카메라와 Optical Flow
 
-Please follow the instructions in [this README](https://github.com/PX4/snap_cam.git) to use the camera and optical flow with a Snapdragon Flight.
+Snapdragon Flight의 카메라와 Optical Flow를 사용방법은 [this README](https://github.com/PX4/snap_cam.git)를 참고하세요.
