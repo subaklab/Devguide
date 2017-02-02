@@ -1,66 +1,66 @@
-# Snapdragon Advanced
+# Snapdragon 고급
 
-## Connect to Snapdragon
+## Snapdragon에 연결하기
 
-### Over FTDI
+### FTDI 사용
 
-Connect the small debug header shipped with the Snapdragon and the FTDI cable.
+Snapdragon 킷에 들어있는 작은 디버그 헤더와 FTDI 케이블 연결합니다.
 
-On Linux, open a console using:
+리눅스에서 콘솔을 사용 :
 
 ```
 screen /dev/ttyUSB0 115200
 ```
 
-Change USB0 to whatever it happens to be. Check `/dev/` or `/dev/serial/by-id`.
+USB0을 알맞게 변경합니다. `/dev/`나 `/dev/serial/by-id`를 확인합니다.
 
 
-### Over ADB (Android Debug Bridge)
+### ADB(Android Debug Bridge) 사용
 
-Connect the Snapdragon over USB2.0 and power it up using the power module.
-When the Snapdragon is running the, the LED will be slowly blinking (breathing) in blue.
+USB2.0으로 Snapdragon연결하고 power module을 사용해서 전원을 넣어줍니다.
+Snapdragon이 실행될 때, LED는 청색으로 천천히 깜빡입니다.
 
-Make sure the board can be found using adb:
+adb를 사용하면 연결된 보드를 확인합니다. :
 
 ```
 adb devices
 ```
 
-If you cannot see the device, it is most likely a USB device permission issue. Follow the instructions
+장치를 확인하지 못하는 경우, USB 장치 permission과 관련된 문제일 수 있습니다. 아래 지시를 따라해 봅시다.
 
-To get a shell, do:
+다음과 같이 쉘 얻기 :
 
 ```
 adb shell
 ```
 
-## Upgrade Snapdragon
+## Snapdragon 업그레이드
 
-For this step the Flight_BSP zip file from Intrynsic is required. It can be obtained after registering using the board serial.
+이 단계에서는 Intrynsic에서 Flight BSP zip 파일이 필요합니다. 보드 시리얼을 이용해서 등록해야 다운받기가 가능합니다.
 
-### Upgrading/replacing the Linux image
+### Linux 이미지 업그레이드/교체하기
 
-<aside class="caution">Flashing the Linux image will erase everything on the Snapdragon. Back up your work before you perform this step!</aside>
+<aside class="caution">Linux 이미지를 플래쉬하면 Snapdragon에 있는 모든 것이 삭제됩니다. 이 단계를 진핸하기 전에 작업한 자료를 백업합니다!</aside>
 
-Make sure the board can be found using adb:
+이제 adb를 사용해서 연결된 보드가 보이는지 확인합니다.:
 
 ```
 adb devices
 ```
 
-Then, reboot it into the fastboot bootloader:
+이제 fastboot bootloader로 리부팅합니다. :
 
 ```
 adb reboot bootloader
 ```
 
-Make sure the board can be found using fastboot:
+fastboot을 이용해서 연결된 보드가 보이는지 확인합니다. :
 
 ```
 fastboot devices
 ```
 
-Download the latest BSP from Intrinsyc:
+Intrinsyc에서 최신 BSP을 다운받습니다 :
 
 ```
 unzip Flight_3.1.1_BSP_apq8074-00003.zip
@@ -68,46 +68,45 @@ cd BSP/binaries/Flight_BSP_4.0
 ./fastboot-all.sh
 ```
 
-It is normal that the partitions `recovery`, `update`, and `factory` will fail.
+`recovery`, `update`, `factory`와 같은 partition은 동작하는 않는 것이 정상입니다.
 
-### Updating the ADSP firmware
+### ADSP 펌웨어 업데이트하기
 
-Part of the PX4 stack is running on the ADSP (the DSP side of the Snapdragon 8074). The underlying operating system QURT needs to be updated separately.
+PX4 stack의 일부는 ADSP(Snapdragon 8074의 DSP부분)에서 동작하고 있습니다. 기반 OS는 QURT로 별도로 업데이트가 필요합니다.
 
-<aside class="caution">If anything goes wrong during the ADSP firmware update, your Snapdragon can get bricked! Follow the steps below carefully which should prevent bricking in most cases.</aside>
+<aside class="caution">ADSP 펌웨어 업데이트 중에 문제가 발생한다면, Snapdragon은 더이상 사용할 수 없게 될 수 있습니다! 따라서 이렇게 되지 않도록 아래 단계를 시도할때 각별한 주의가 필요합니다.</aside>
 
-First of all, if you're not already on BSP 3.1.1, [upgrade the Linux image](#upgradingreplacing-the-linux-image)!
+우선 BSP 3.1.1이 준비되어 있지 않았다면, [Linux image 업그레이드](#upgradingreplacing-the-linux-image)를 합니다!
 
-#### Prevent bricking
+#### 벽돌로 되는 것 방지하기
+ADSP 펌웨어에 문제가 생기면 부팅에서 계속 멈춰있게 되는 문제가 생기므로 이를 방지하기 위해서 업데이트하기 전에 다음과 같이 변경해 줍니다. :
 
-To prevent the system from hanging on boot because of anything wrong with the ADSP firmware, do the following changes before updating:
-
-Edit the file directly on the Snapdragon over `screen` or `adb shell`:
+`screen`나 `adb shell` 상에서 Snapdragon에서 직접 파일을 수정 :
 ```sh
 vim /usr/local/qr-linux/q6-admin.sh
 ```
 
-Or load the file locally and edit it there with the editor of your choice:
+아니면 파일을 로컬로 로드하고 에디터를 이용해서 수정 :
 
-To do this, load the file locally:
+이렇게 하기 위해서, 로컬로 파일을 로드합니다. :
 ```sh
 adb pull /usr/local/qr-linux/q6-admin.sh
 ```
 
-Edit it:
+수정하기 :
 
 ```sh
 gedit q6-admin.sh
 ```
 
-And push it back:
+다음으로 되돌리기 :
 
 ```sh
 adb push q6-admin.sh /usr/local/qr-linux/q6-admin.sh
 adb shell chmod +x /usr/local/qr-linux/q6-admin.sh
 ```
 
-Comment out the while loops causing boot to hang:
+부팅 상태로 멈춰있게 하는 원인이 while loop을 커멘트 처리 :
 
 ```
 # Wait for adsp.mdt to show up
@@ -116,7 +115,7 @@ Comment out the while loops causing boot to hang:
 #done
 ```
 
-and:
+그리고:
 
 ```
 # Don't leave until ADSP is up
@@ -125,11 +124,11 @@ and:
 #done
 ```
 
-#### Push the latest ADSP firmware files
+#### 최신 ADSP 펌웨어 파일 넣기
 
-Download the file [Flight_3.1.1a_qcom_flight_controller_hexagon_sdk_add_on.zip](http://support.intrinsyc.com/attachments/download/691/Flight_3.1.1a_qcom_flight_controller_hexagon_sdk_add_on.zip) from Intrinsyc.
+Intrinsync에서 파일 다운받기 [Flight_3.1.1a_qcom_flight_controller_hexagon_sdk_add_on.zip](http://support.intrinsyc.com/attachments/download/691/Flight_3.1.1a_qcom_flight_controller_hexagon_sdk_add_on.zip).
 
-And copy them on to the Snapdragon:
+그리고 Snapdragon에 복사하기:
 
 ```
 unzip Flight_3.1.1a_qcom_flight_controller_hexagon_sdk_add_on.zip
@@ -137,17 +136,18 @@ cd images/8074-eagle/normal/adsp_proc/obj/qdsp6v5_ReleaseG/LA/system/etc/firmwar
 adb push . /lib/firmware
 ```
 
-Then do a graceful reboot, so that the firmware gets applied:
+다음으로 정상적으로 리부팅하면 펌웨어가 적용됩니다 :
 
 ```
 adb reboot
 ```
 
 
-## Serial ports
+## 시리얼 포트 (Serial ports)
 
-### Use serial ports
+### 시리얼 포트 사용하기
 
+모든 POSIX 호출
 Not all POSIX calls are currently supported on QURT. Therefore, some custom ioctl are needed.
 
 The APIs to set up and use the UART are described in [dspal](https://github.com/PX4/dspal/blob/master/include/dev_fs_lib_serial.h).
