@@ -1,62 +1,55 @@
 # uORB Messaging
 
-## Introduction
+## 소개
 
-The uORB is an asynchronous publish() / subcribe() messaging API used for
-inter-thread/inter-process communication.
+uORB는 동기화 publish() / subscribe() 메시징 API로 thread 간/프로세스 간 통신에 사용됩니다.
 
-Look at the [tutorial](tutorial-hello-sky.md) to learn how to use it in C++.
+C++에서 어떻게 사용하는지는 [tutorial](tutorial-hello-sky.md)를 참고하세요.
 
-uORB is automatically started early on bootup as many applications depend on it.
-It is started with `uorb start`. Unit tests can be started with `uorb test`.
+uORB는 많은 application이 사용하므로 부팅시에 자동으로 시작됩니다. `uorb start`명령으로 시작됩니다. 단위 테스트는 `uorb test`로 시작시킬 수 있습니다.
 
-## Adding a new topic
+## 새로운 topic 추가하기
 
-To add a new topic, you need to create a new `.msg` file in the `msg/`
-directory and add the file name to the `msg/CMakeLists.txt` list. From this,
-there will automatically be C/C++ code generated.
+새로운 topic을 추가하기 위해서, `msg/` 디렉토리에 새로운 `.msg` 확장자의 파일을 생성하고 파일 이름을 `msg/CMakeLists.txt`목록에 추가합니다. 여기서부터 C/C++ 코드로 자동으로 생성됩니다.
 
-Have a look at the existing `msg` files for supported types. A message can also
-be used nested in other messages.
-To each generated C/C++ struct, a field `uint64_t timestamp` will be added. This
-is used for the logger, so make sure to fill it in when logging the message.
+지원하는 타입을 볼려면 기존 `msg` 파일을 참고하세요. 메시지는 다른 메시지에 속해 있을 수도 있습니다. 각 생성된 C/C++ 구조체에 대해서, `uint64_t timestamp` 필드가 추가됩니다. 이것은 logger로 사용되어, 메시지를 로깅할때 여기에 값을 기입하게 됩니다.
 
-To use the topic in the code, include the header:
+코드에 topic을 사용하기 위해서 헤더를 추가합니다:
 ```
 #include <uORB/topics/topic_name.h>
 ```
 
-By adding a line like the following in the `.msg` file, a single message
-definition can be used for multiple independent topic instances:
+`.msg` 파일에 다음과 같이 한 줄 추가하면, 여러개의 독립적인 topic 인스턴스에 대해서 단일 메시지 정의가 사용될 수 있습니다. :
 ```
 # TOPICS mission offboard_mission onboard_mission
 ```
-Then in the code, use them as topic id: `ORB_ID(offboard_mission)`.
+코드내에서 topic id로 사용 : `ORB_ID(offboard_mission)`
 
 
 ## Publishing
 
-Publishing a topic can be done from anywhere in the system, including interrupt context (functions called by the `hrt_call` API). However, advertising a topic is only possible outside of interrupt context. A topic has to be advertised in the same process as its later published.
+interrupt context(`hrt_call` API가 호출하는 함수)를 포함해서 시스템 어디에서든 topic을 publish할 수 있습니다. 그러나 topic을 advertise하는 것은 interrupt context 외부에서만 가능합니다. 나중에 publish하는 프로세스와 topic을 advertise하는 프로세스는 동일해야 합니다.
 
 ## Listing Topics and Listening in
 
 <aside class="note">
-The 'listener' command is only available on Pixracer (FMUv4) and Linux / OS X.
+'listener' 명령은 Pixracer (FMUv4)와 Linux / OS X 에서만 가능합니다.
 </aside>
 
+모든 topic을 리스트로 보기 위해서 파일 핸들의 리스트를 봐야합니다.
 To list all topics, list the file handles:
 
 ```sh
 ls /obj
 ```
 
-To listen to the content of one topic for 5 messages, run the listener:
+5개 메시지에 대해서 1개 topic의 content를 listen하기 위해서 listener를 실행합니다.: listener:
 
 ```sh
 listener sensor_accel 5
 ```
 
-The output is n-times the content of the topic:
+출력은 topic의 n회 내용을 보여줍니다.:
 
 ```sh
 TOPIC: sensor_accel #3

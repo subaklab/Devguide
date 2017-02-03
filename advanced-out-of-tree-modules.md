@@ -1,20 +1,15 @@
 # Out-of-tree Modules
 
-This describes the possibility to add an external module to the PX4 build.
+여기서는 외부 모듈을 PX4 빌드에 추가하는 방법을 설명합니다.
 
-External modules can use the same includes as internal modules and can interact
-with internal modules via uORB.
+외부 모듈은 내부 모듈과 동일한 include를 사용하고 내부 모듈은 uORB를 통해 상호작용할 수 있습니다.
 
-## Usage
+## 사용
 
-- `EXTERNAL_MODULES_LOCATION` needs to point to a directory with the same
-  structure as Firmware (and thus contains a directory called `src`).
-- There are two options: copy an existing module (eg. examples/px4_simple_app)
-  to the external directory, or directly create a new module.
-- Rename the module (including `MODULE` in CMakeLists.txt) or remove it from the
-  existing Firmware cmake build config. This is to avoid conflicts with internal
-  modules.
-- Add a file `$EXTERNAL_MODULES_LOCATION/CMakeLists.txt` with content:
+- `EXTERNAL_MODULES_LOCATION`은 Firmware와 동일한 구조를 갖는 디렉토리를 가리켜야 합니다.(따라서 `src`라는 디렉토리를 포함)
+- 여기에는 2가지 옵션이 있습니다. : 외부디렉토리에 기존 모듈을 복사(examples/px4_simple_app 예제)하거나 직접 새로운 모듈을 생성하는 것입니다.
+- 모듈(CMakeLists.txt 내부에서 `MODULE` 포함)에 새로운 이름을 주거나 기존 Firmware cmake build 설정에서 삭제하는 것입니다. 이렇게 해서  내부 모듈과의 충돌을 피합니다.
+- `$EXTERNAL_MODULES_LOCATION/CMakeLists.txt` 파일에 다음과 같은 내용을 추가합니다.
 
 ```
 set(config_module_list_external
@@ -22,8 +17,7 @@ set(config_module_list_external
     PARENT_SCOPE
     )
 ```
-- add a line `EXTERNAL` to the `modules/<new_module>/CMakeLists.txt` within
-  `px4_add_module`, for example like this:
+- `px4_add_module` 내부에 있는 `modules/<new_module>/CMakeLists.txt` 파일에 `EXTERNAL` 라인을 추가합니다. 예제는 다음과 같습니다. :
 
 ```
 px4_add_module(
@@ -38,9 +32,4 @@ px4_add_module(
 	)
 
 ```
-- Execute `make posix EXTERNAL_MODULES_LOCATION=<path>`. Any other build target
-  can be used, but the build directory must not yet exist. If it already exists,
-  you can also just set the cmake variable in the build folder.
-  For the following incremental builds `EXTERNAL_MODULES_LOCATION` does not need
-  to be specified anymore.
-
+- `make posix EXTERNAL_MODULES_LOCATION=<path>`를 실행합니다. 다른 빌드 타겟을 실행할 수 있지만, 빌드 디렉토리는 아직 존재하면 안됩니다. 만약에 이미 존재하는 경우라면, 빌드 폴더에 cmake 변수를 설정할 수 있습니다. 다음으로 incremental build에 대해서는 더이상 `EXTERNAL_MODULES_LOCATION`를 지정할 필요는 없습니다.

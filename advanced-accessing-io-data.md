@@ -1,29 +1,24 @@
-# Accessing I/O Data
-Low level bus data can be accessed from code running on the aDSP, using a POSIX-like API called DSPAL.  The header files for this API are maintained
-on [github](https://github.com/ATLFlight/dspal) and are commented with Doxygen formatted documentation in each header file.  A description of the API's supported
-and links to the applicable header files is provided below. 
+# I/O 데이터 접근
 
-## API Overview
+DSPAL이라는 POSIX유사 API를 이용하는 경우 aDSP에서 실행되는 코드로 low level bus 데이터에 접근할 수 있습니다. 이 API에 대한 헤더 파일은  [github](https://github.com/ATLFlight/dspal)에서 유지관리되고 각 헤더 파일에서 Doxygen 포맷으로 설명하고 있습니다. 지원하는 API의 설명과 적용가능한 헤더 파일에 대한 링크는 아래와 같습니다.
+
+## API 개요
 * [Serial:](https://github.com/ATLFlight/dspal/blob/master/include/dev_fs_lib_serial.h)
 * [I2C:](https://github.com/ATLFlight/dspal/blob/master/include/dev_fs_lib_i2c.h)
-* [SPI:](https://github.com/ATLFlight/dspal/blob/master/include/dev_fs_lib_spi.h) 
+* [SPI:](https://github.com/ATLFlight/dspal/blob/master/include/dev_fs_lib_spi.h)
 * [GPIO:](https://github.com/ATLFlight/dspal/blob/master/include/dev_fs_lib_gpio.h)
 * Timers: [qurt_timer.h](https://developer.qualcomm.com/software/hexagon-dsp-sdk/tools)
 * Power Control: [HAP_power.h](https://developer.qualcomm.com/software/hexagon-dsp-sdk/tools)
 
-## Sample Source Code
-The unit test code to verify each DSPAL function also represent good examples for how to call the functions.  
-This code is also on [github](https://github.com/ATLFlight/dspal/tree/master/test/dspal_tester)
+## 샘플 소스코드
+각 DSPAL 함수를 검증하는 단위 테스트 코드를 보면 함수 호출을 어떻게 해야하는지 잘 보여주고 있습니다.
+샘플 코드는 [github](https://github.com/ATLFlight/dspal/tree/master/test/dspal_tester)를 참고합니다.
 
-### Setting the Serial Data Rate
-The serial API does not conform to the termios convention for setting data rate through the tcsetattr() function.  IOCTL codes are used instead and are
-described in the header file linked above.
+### Serial Data Rate 설정하기
+시리얼 API는 tcsetattr() 함수를 통해 data rate를 설정하는 termios 규칙이 확정된 것은 아닙니다. IOCTL 코드가 대신 사용되며 위에 링크한 헤더 파일에서 설명하고 있습니다.
 
 ### Timers
-Additional functions for more advanced aDSP operations are available with the prefix qurt_.  Timer functions, for example, are available with the qurt_timer prefix
-and are documented in the qurt_timer.h header file included with the [Hexagon SDK](https://developer.qualcomm.com/software/hexagon-dsp-sdk/tools).
+좀더 고급 aDSP 연산을 위해서 추가한 함수들은 qurt_ 접두어로 시작합니다. 예를 들자면 타이머 함수는 qurt_timer 접수어로 시작하며, [Hexagon SDK](https://developer.qualcomm.com/software/hexagon-dsp-sdk/tools)에 포함된 qurt_timer.h 헤더 파일에서 찾아볼 수 있습니다.
 
-### Setting the Power Level
-Using the HAP functions provided by the Hexagon SDK, it is possible to set the power level of the aDSP.  This will often lead to reduced I/O latencies.
-More information on these API's is available in the HAP_power.h header file available in the [Hexagon SDK](https://developer.qualcomm.com/software/hexagon-dsp-sdk/tools).
-
+### 파워 레벨 설정 (Setting the Power Level)
+Hexagon SDK가 제공하는 HAP 함수를 사용하는 경우, aDSP의 파워 레벨을 설정할 수 있습니다. 이런 경우 I/O 지연을 줄일 수 있습니다. 이 API에 관한 정보는 [Hexagon SDK](https://developer.qualcomm.com/software/hexagon-dsp-sdk/tools)에 있는 HAP_power.h 헤더 파일에서 찾을 수 있습니다.
