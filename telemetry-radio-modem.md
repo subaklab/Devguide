@@ -1,8 +1,8 @@
-# Radio Modem Telemetry
+# 라디오 모뎀 텔레메트리 (Radio Modem Telemetry)
 
-Extensive field tests have shown that the MAVLink-enabled modems with the [SiK Firmware](https://github.com/dronecode/sik) provide the best range and throughput. The hardware design is available from several manufacturers in standard and long-range versions.
+MAVLink 가능한 [SiK Firmware](https://github.com/dronecode/sik)를 이용하는 경우 다양한 필드 테스트에서 범위와 처리효율에서 최고의 성능을 보여주고 있습니다. 하드웨어 설계는 여러 제조사에서 표준 버전과 장거리 버전으로 나왔습니다.
 
-## SiK Compatible Modems
+## SiK 호환 모뎀
 
  * [3DR Radio](https://store.3drobotics.com/products/3dr-radio-set) (small)
  * [HK Radio](http://www.hobbyking.com/hobbyking/store/uh_viewitem.asp?idproduct=55559) (small)
