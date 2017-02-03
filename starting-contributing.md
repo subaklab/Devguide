@@ -42,20 +42,21 @@ Reported-by: Name <email@px4.io>
 
 **```git commit -s```를 사용하면 모든 커밋에 사인을 남길 수 있습니다.** 마지막 라인에 ```signed-off-by:```과 이름과 이메일을 추가합니다.
 
-This commit guide is based on best practices for the Linux Kernel and other [projects maintained](https://github.com/torvalds/subsurface/blob/a48494d2fbed58c751e9b7e8fbff88582f9b2d02/README#L88-L115) by Linus Torvalds.
+커밋 가이드는 Linux Kernel과 리누스 토발즈가 [관리하는 프로젝트](https://github.com/torvalds/subsurface/blob/a48494d2fbed58c751e9b7e8fbff88582f9b2d02/README#L88-L115) 의 좋은 예들을 기반으로 하고 있습니다.
 
-## Tests Flight Results
+## 비행 결과 테스트 (Tests Flight Results)
 
-Test flights are important for quality assurance. Please upload the logs from the microSD card to [Log Muncher](http://logs.uaventure.com) and share the link on the [PX4 Discuss](http://discuss.px4.io/) along with a verbal flight report.
+비행 테스트는 QA 관점에서 중요합니다. microSD 카드에서 log 파일을  [Log Muncher](http://logs.uaventure.com)에 업로드하고 비행 결과와 링크를 [PX4 Discuss](http://discuss.px4.io/)에 공유해 주세요.
 
-## Forums and Chat
+## 포럼과 챗팅 (Forums and Chat)
 
   * [Google+](https://plus.google.com/117509651030855307398)
   * [Gitter](https://gitter.im/PX4/Firmware)
   * [PX4 Discuss](http://discuss.px4.io/)
 
-## Weekly Dev Call
+## 주단위 개발 콜 (Weekly Dev Call)
 
+PX4 개발 팀은 매주 개발관련 내용에 대해서 대화를 나눕니다. ([Mumble](http://mumble.info) 클라이언트로 연결)
 The PX4 Dev Team syncs up on its weekly dev call (connect via [Mumble](http://mumble.info) client).
 
   * TIME: 19:00h Zurich time, 1 p.m. Eastern Time, 10 a.m. Pacific Standard Time

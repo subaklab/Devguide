@@ -1,17 +1,17 @@
-# Using the ecl EKF
-This tutorial answers common questions about use of the ECL EKF algorithm. 
+# ecl EKF 사용하기
+이 튜터리얼에서는 ECL EKF 알고리즘을 사용 관련된 일반적인 질문과 그에 대한 답변을 드립니다.
 
-## What is the ecl EKF?
-The ECL (Estimation and Control Library) uses an Extended Kalman Filter algorithm to process sensor measurements and provide an estimate of the following states:
+## ecl EFK가 뭔가요?
+ECL (Estimation and Control Library)은 확장 칼만 필터(Extended Kalman Filter)를 사용하여 센서 측정을 처리하고 다음 내용에 대한 estimate를 제공합니다:
 
-* Quaternion defining the rotation from North,East,Down local earth fram to X,Y,Z body frame
-* Velocity at the IMU - North,East,Down (m/s)
-* Position at the IMU - North,East,Down (m)
+* 쿼터니언(Quaternion)은 북, 동, 아래(North, East, Down)와 같은 local earth 프레임을 X, Y, Z와 같은 body frame으로의 rotation을 정의합니다.
+* IMU에서 속도 - North, East, Down (m/s)
+* IMU에서 위치 - Northm, East, Down (m)
 * IMU delta angle bias estimates - X,Y,Z (rad)
 * IMU delta velocity bias estimates - X,Y,Z(m/s)
 * Earth Magnetic field components - North,East,Down (gauss)
 * Vehicle body frame magnetic field bias - X,Y,Z (gauss)
-* Wind velocity - North,East (m/s)
+* 바람 속도 - North,East (m/s)
 
 The EKF runs on a delayed 'fusion time horizon' to allow for different time delays on each measurement relative to the IMU. Data for each sensor is FIFO buffered and retrieved from the buffer by the EKF to be used at the correct time. The delay compensation for each sensor is controlled by the EKF2_*_DELAY parameters.
 
@@ -40,7 +40,7 @@ Three axis body fixed magnetometer data (or external vision system pose data) at
 The logic used to select the mode is set by the EKF2_MAG_TYPE parameter.
 
 ###Height
-A source of height data - either GPS, barometric pressure, range finder or external vision at a minimum rate of 5Hz is required. Note: The primary source of height data is controlled by the EKF2_HGT_MODE parameter. 
+A source of height data - either GPS, barometric pressure, range finder or external vision at a minimum rate of 5Hz is required. Note: The primary source of height data is controlled by the EKF2_HGT_MODE parameter.
 
 If these measurements are not present, the EKF will not start. When these measurements have been detected, the EKF will initialise the states and complete the tilt and yaw alignment. When tilt and yaw alignment is complete, the EKF can then transition to other modes of operation  enabling use of additional sensor data:
 
@@ -48,13 +48,13 @@ If these measurements are not present, the EKF will not start. When these measur
 GPS measurements will be used for position and velocity if the following conditions are met:
 
 * GPS use is enabled via setting of the EKF2_AID_MASK parameter.
-* GPS quality checks have passed. These checks are controlled by the EKF2_GPS_CHECK and EKF2_REQ<> parameters. 
+* GPS quality checks have passed. These checks are controlled by the EKF2_GPS_CHECK and EKF2_REQ<> parameters.
 * GPS height can be used directly by the EKF via setting of the EKF2_HGT_MODE parameter.
 
 ###Range Finder
-Range finder distance to ground is used a by a single state filter to estimate the vertical position of the terrain relative to the height datum. 
+Range finder distance to ground is used a by a single state filter to estimate the vertical position of the terrain relative to the height datum.
 
-If operating over a flat surface that can be used as a zero height datum, the range finder data can also be used directly by the EKF to estimate height by setting the EKF2_HGT_MODE parameter to 2. 
+If operating over a flat surface that can be used as a zero height datum, the range finder data can also be used directly by the EKF to estimate height by setting the EKF2_HGT_MODE parameter to 2.
 
 ###Airspeed
 Equivalent Airspeed (EAS) data can be used to estimate wind velocity and reduce drift when GPS is lost by setting EKF2_ARSP_THR to a positive value. Airspeed data will be used when it exceeds the threshold set by a positive value for EKF2_ARSP_THR and the vehicle type is not rotary wing.
@@ -79,7 +79,7 @@ Position and Pose Measurements from an exernal vision system, eg Vicon, can be u
 Set the SYS_MC_EST_GROUP parameter to 2 to use the ecl EKF.
 
 ## What are the advantages and disadvantages of the ecl EKF over other estimators?
-Like all estimators, much of the performance comes from the tuning to match sensor characteristics. Tuning is a compromise between accuracy and robustness and although we have attempted to provide a tune that meets the needs of most users, there will be applications where tuning changes are required. 
+Like all estimators, much of the performance comes from the tuning to match sensor characteristics. Tuning is a compromise between accuracy and robustness and although we have attempted to provide a tune that meets the needs of most users, there will be applications where tuning changes are required.
 
 For this reason, no claims for accuracy relative to the legacy combination of attitude_estimator_q + local_position_estimator have been made and the best choice of estimator will depend on the application and tuning.
 
@@ -88,14 +88,14 @@ For this reason, no claims for accuracy relative to the legacy combination of at
 * The ecl EKF uses more RAM and flash space
 * The ecl EKF uses more logging space.
 * The ecl EKF has had less flight time
- 
+
 ### Advantages
 * The ecl EKF is able to fuse data from sensors with different time delays and data rates in a mathematically consistent way which improves accuracy during dynamic manoeuvres once time delay parameters are set correctly.
 * The ecl EKF is capable of fusing a large range of different sensor types.
 * The ecl EKF detects and reports statistically significant inconsistencies in sensor data, assisting with diagnosis of sensor errors.
 * For fixed wing operation, the ecl EKF estimates wind speed with or without an airspeed sensor and is able to use the estimated wind in combination with airspeed measurements and sideslip assumptions to extend the dead-reckoning time avalable if GPS is lost in flight.
 * The ecl EKF estimates 3-axis accelerometer bias which improves accuracy for tailsitters and other vehicles that experience large attitude changes between flight phases.
-* The federated architecture (combined attitude and position/velocity estimation) means that attitude estimation benefits from all sensor measurements. This should provide the potential for improved attitude estimation if tuned correctly. 
+* The federated architecture (combined attitude and position/velocity estimation) means that attitude estimation benefits from all sensor measurements. This should provide the potential for improved attitude estimation if tuned correctly.
 
 ## How do I check the EKF performance?
 EKF outputs, states and status data are published to a number of uORB topics which are logged to the SD card during flight. The following guide assumes that data has been logged using the .ulog file format. To use the .ulog format, set the SYS_LOGGER parameter to 1.
@@ -227,10 +227,10 @@ Note that the effect of these changes will make the EKF more sensitive to errors
 ##What should I do if the position estimate is diverging?
 The most common causes of position divergence are:
 
-* High vibration levels. 
+* High vibration levels.
  * Fix by improving mechanical isolation of the autopilot.
  * Increasing the value of EKF2_ACC_NOISE and EKF2_GYR_NOISE can help, but does make the EKF more vulnerable to GPS glitches.
-* Large gyro bias offsets. 
+* Large gyro bias offsets.
  * Fix by re-calibrating the gyro. Check for excessive temperature sensitivity (> 3 deg/sec bias change during warm-up from a cold start and replace the sensor if affected of insulate to to slow the rate of temeprature change.
 * Bad yaw alignment
   * Check the magntometer calibration and alignment.
@@ -273,7 +273,7 @@ Large gyro bias offsets are normally characterised by a change in the value of d
 (insert example plots showing bad gyro bias here)
 
 ###Determination of Poor Yaw Accuracy
-Bad yaw alignment causes a velocity test ratio that increases rapidly when the vehicle starts moving due inconsistency in the direction of velocity calculatde by the inertial nav and the  GPS measurement. Magnetometer innovations are slightly affected. Height is normally unaffected. 
+Bad yaw alignment causes a velocity test ratio that increases rapidly when the vehicle starts moving due inconsistency in the direction of velocity calculatde by the inertial nav and the  GPS measurement. Magnetometer innovations are slightly affected. Height is normally unaffected.
 
 (insert example plots showing bad yaw alignment here)
 
@@ -291,4 +291,3 @@ If we also look at the GPS horizontal velocity innovations and innovation varian
 Loss of GPS data will be shown by the velocity and position innvoation test ratios 'flat-lining'. If this occurs, check the oher GPS status data in vehicle_gps_position for further information.
 
 (insert example plosts showing loss of GPS data here)
-

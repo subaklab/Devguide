@@ -1,47 +1,37 @@
 # Logging
 
-This describes the new logger, `SYS_LOGGER` set to 1.
+여기서는 새로운 logger에 대해서 알아봅니다. `SYS_LOGGER`를 1로 설정합니다.
 
-The logger is able to log any ORB topic with all included fields. Everything
-necessary is generated from the `.msg` file, so that only the topic name needs
-to be specified. An optional interval parameter specifies the maximum logging
-rate of a certain topic. All existing instances of a topic are logged.
+logger는 포함하는 모든 필드와 함께 ORB topic을 log할 수 있습니다. 모든 것은 `.msg` 파일에서 생성되며 topic 이름은 지정해줘 합니다. 선택적으로 interval 파라미터는 특정 topic에 대해서 최대 logging rate를 지정합니다. 모든 기존 topic 인스턴스는 로그를 남기게 됩니다.
 
-The output log format is [ULog](advanced-ulog-file-format.md).
+log 출력 포맷은 [ULog](advanced-ulog-file-format.md)입니다.
 
-## Usage
-By default, logging is automatically started when arming, and stopped when
-disarming. A new log file is created for each arming session on the SD card. To
-display the current state, use `logger status` on the console.  If you want to
-start logging immediately, use `logger on`. This overrides the arming state, as
-if the system was armed. `logger off` undoes this.
+## 사용
+기본적으로 logging은 arming이 되면 자동으로 시작되고 disarming이 되면 멈추게 됩니다. 매번 arming 세션마다 새로운 log 파일 SD카드에 생성됩니다. 현재 상태를 보여주기 위해서 콘솔에서 `logger status`를 사용하세요. 즉시 logging을 시작시키고자 한다면 `logger on`를 사용합니다. 이렇게하면 시스템이 이미 arm 상태가 되어서 arming 상태를 무시하게 됩니다. `logger off`를 하면 원상태로 돌아갑니다.
 
 Use
 ```
 logger help
 ```
-for a list of all supported logger commands and parameters.
+지원하는 모든 logger 명령과 파라미터의 목록을 보여줍니다.
 
 
 ## Configuration
-The list of logged topics can be customized with a file on the SD card. Create a
-file `etc/logging/logger_topics.txt` on the card with a list of topics:
+로그로 기록되는 topic의 목적은 SD카드에 파일로 커스터마이즈될 수 있습니다. topic의 목록을 가지고 카드에 `etc/logging/logger_topics.txt` 파일을 생성합니다:
 ```
 <topic_name>, <interval>
 ```
-The `<interval>` is optional, and if specified, defines the minimum interval in
-ms between two logged messages of this topic. If not specified, the topic is
-logged at full rate.
+`<interval>`은 선택사항이며 만약 지정하면 해당 topic이 로그 메시지를 기록하는 사이에 ms 단위의 시간 차이를 정의합니다. 만약 지정하지 않으면 topic은 최대 rate로 로그를 기록합니다.
 
-The topics in this file replace all of the default logged topics.
-
+이 파일에 있는 topic은 모두 기본 로그의 topic으로 대체됩니다.
 
 ## Scripts
+[pyulog](https://github.com/PX4/pyulog) 저장소에 
 There are several scripts to analyze and convert logging files in the
 [pyulog](https://github.com/PX4/pyulog) repository.
 
-
 ## Dropouts
+
 Logging dropouts are undesired and there are a few factors that influence the
 amount of dropouts:
 - Most SD cards we tested exhibit multiple pauses per minute. This shows
@@ -126,5 +116,3 @@ instance #0:
   Also make sure `txerr` stays at 0. If this goes up, either the NuttX sending
   buffer is too small, the physical link is saturated or the hardware is too
   slow to handle the data.
-
-
