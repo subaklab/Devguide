@@ -30,7 +30,7 @@ restrict_topics: <topic1>, <topic2>, ..., <topicN>
 module: <module>
 ignore_others: <true/false>
 ```
-  
+
   It means that the given list of topics should only be published by `<module>`
   (which is the command name). Publications to any of these topics from another
   module are silently ignored. If `ignore_others` is `true`, then publications
