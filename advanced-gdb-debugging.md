@@ -1,10 +1,10 @@
-# Embedded Debugging
+# 디버깅 지원 (Embedded Debugging)
 
-The autopilots running PX4 support debugging via GDB or LLDB.
+PX4를 실행하는 autopilot에서 GDB나 LLDB를 통한 디버깅이 가능합니다.
 
-## Identifying large memory consumers
+## 많은 메모리 사용하는 부분 찾기 (Identifying large memory consumers)
 
-The command below will list the largest static allocations:
+아래에서 이 명령을 이용하면 가장 많이 정적 메모리 할당한 목록을 보여줍니다. :
 
 <div class="host-code"></div>
 
@@ -12,23 +12,23 @@ The command below will list the largest static allocations:
 arm-none-eabi-nm --size-sort --print-size --radix=dec build_px4fmu-v2_default/src/firmware/nuttx/firmware_nuttx | grep " [bBdD] "
 ```
 
-This NSH command provides the remaining free memory:
+NSH 명령은 남은 메모리의 양을 알려줍니다.:
 
 ```bash
 free
 ```
 
-And the top command shows the stack usage per application:
+그리고 top 명령은 application당 stack 사용량을 보여줍니다. :
 
 ```
 top
 ```
 
-Stack usage is calculated with stack coloring and thus is not the current usage, but the maximum since the start of the task.
+stack 사용량은 stack coloring으로 계산되며, 현재 사용량이 아니라 task를 시작한 이후 최대량을 뜻합니다.
 
-### Heap allocations
-Dynamic heap allocations can be traced on POSIX in SITL with [gperftools](https://github.com/gperftools/gperftools).
-Once installed, it can be used with:
+### 힙 할당 (Heap allocations)
+동적으로 힙 할당은 [gperftools](https://github.com/gperftools/gperftools)로 SITL에서 POSIX상에서 추적이 가능합니다.
+일단 설치하고, 다음과 같이 사용할 수 있습니다. :
   * Run jmavsim: `./Tools/jmavsim_run.sh`
   * Then:
 
@@ -38,27 +38,26 @@ export HEAPPROFILE=/tmp/heapprofile.hprof
 env LD_PRELOAD=/lib64/libtcmalloc.so ../src/firmware/posix/px4 posix-configs/SITL/init/lpe/iris
 pprof --pdf ../src/firmware/posix/px4 /tmp/heapprofile.hprof.0001.heap > heap.pdf
 ```
+힙 할당 그래프를 pdf로 생성합니다.
+그래프에서 숫자는 모드 0이 됩니다. 왜냐하면 단위가 MB이기 때문입니다. 대신에 퍼센트를 살펴봅시다. node나 subtree의 live 메모리를 보여주며 마지막까지 사용할 메모리를 의미합니다.
 
-It will generate a pdf with a graph of the heap allocations.
-The numbers in the graph will all be zero, because they are in MB. Just look at the percentages instead. They show the live memory (of the node and the subtree), meaning the memory that was still in use at the end.
-
-If it does not generate heap dumps while running the `px4` app you might need to change the settings of the profiler. On some systems it is necessary to set an interval time when to write the dumps:
+`px4` app을 실행하는 동안 힙 덤프(heap dumps)을 생성하지 않는다면, profiler의 설정을 변경해야 합니다. 일부 시스템에서는 덤프를 구할때 시간 간격 설정이 필요합니다. :
 
 ```
 # Specify interval in seconds
 export HEAP_PROFILE_TIME_INTERVAL=10
 ```
 
-See the [gperftools docs](http://htmlpreview.github.io/?https://github.com/gperftools/gperftools/blob/master/doc/heapprofile.html) for more information.
+추가 정보는 [gperftools docs](http://htmlpreview.github.io/?https://github.com/gperftools/gperftools/blob/master/doc/heapprofile.html)를 참고합니다.
 
-## Sending MAVLink debug key / value pairs
+## MAVLink 디버그 키/값 쌍 전송하기 (Sending MAVLink debug key / value pairs)
 
-The code for this tutorial is available here:
+이 튜터리얼에 관련된 코드는 아래 링크를 참고하세요. : 
 
   * [Debug Tutorial Code](https://github.com/PX4/Firmware/blob/master/src/examples/px4_mavlink_debug/px4_mavlink_debug.c)
   * [Enable the tutorial app](https://github.com/PX4/Firmware/tree/master/cmake/configs) by uncommenting / enabling the mavlink debug app in the config of your board
 
-All required to set up a debug publication is this code snippet. First add the header file:
+디버그 publish를 위한 셋업은 필요한 전체 코드는 아래와 같습니다. 먼저 헤더 파일을 추가합니다. :
 
 <div class="host-code"></div>
 
@@ -67,15 +66,15 @@ All required to set up a debug publication is this code snippet. First add the h
 #include <uORB/topics/debug_key_value.h>
 ```
 
-Then advertise the debug value topic (one advertisement for different published names is sufficient). Put this in front of your main loop:
+debug value topic(다른 publish name들에 대해서 하나의 advertise로도 가능)을 advertise합니다. main loop의 앞에 위치시킵니다. :
 
 
-## Debugging Hard Faults in NuttX
+## NuttX에서 하드 폴트 디버깅하기 (Debugging Hard Faults in NuttX)
 
-A hard fault is a state when the operating system detects that it has no valid instructions to execute. This is typically the case when key areas in RAM have been corrupted. A typical scenario is when incorrect memory access smashed the stack and the processor sees that the address in memory is not a valid address for the microprocessors's RAM.
+하드 폴트는 OS가 실행할 유효 명령어가 존재하지 않는다는 것을 검출할 때를 말합니다. 일반적으로 RAM의 핵심 영역에 문제가 있는 경우입니다. 잘못된 메모리 접근으로 stack이 날라가고 프로세서는 메모리의 주소가 마이크로프로세서 RAM에 유효한 주소가 아니라는 것을 인지하게 됩니다.
 
-  * NuttX maintains two stacks: The IRQ stack for interrupt processing and the user stack
-  * The stack grows downward. So the highest address in the example below is 0x20021060, the size is 0x11f4 (4596 bytes) and consequently the lowest address is 0x2001fe6c.
+  * NuttX는 2개 스택을 유지 : IRQ stack과 user stack
+  * stack은 아래로 증가합니다. 따라서 아래 예제에서 가장 높은 주소는 0x20021060이며 사이즈는 0x11f4 (4596 bytes)이고 결과적으로 가장 낮은 주소는 0x2001fe6c입니다.
 
 ```bash
 Assertion failed at file:armv7-m/up_hardfault.c line: 184 task: ekf_att_pos_estimator
@@ -124,15 +123,14 @@ xPSR: 61000000 BASEPRI: 00000000 CONTROL: 00000000
 EXC_RETURN: ffffffe9
 ```
 
-To decode the hardfault, load the *exact* binary into the debugger:
-
+하드폴트를 디코딩하기 위해서 *정확히 일치하는* binary를 디버거로 로드합니다. :
 <div class="host-code"></div>
 
 ```bash
 arm-none-eabi-gdb build_px4fmu-v2_default/src/firmware/nuttx/firmware_nuttx
 ```
 
-Then in the GDB prompt, start with the last instructions in R8, with the first address in flash (recognizable because it starts with `0x080`, the first is `0x0808439f`). The execution is left to right. So one of the last steps before the hard fault was when ```mavlink_log.c``` tried to publish something, 
+GDB 프롬프트에서, R8에서 마지막 명령과 flash에서 첫번째 주소로 시작합니다.(`0x080`로 시작하고 첫번째 주소는 `0x0808439f`임) 하드폴트가 있기 전에 마지막 동작 중에 하나는 ```mavlink_log.c```가 뭔가를 publish를 시도했다는 것입니다.
 
 <div class="host-code"></div>
 
