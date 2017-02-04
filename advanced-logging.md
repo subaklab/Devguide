@@ -26,22 +26,15 @@ logger help
 이 파일에 있는 topic은 모두 기본 로그의 topic으로 대체됩니다.
 
 ## Scripts
-[pyulog](https://github.com/PX4/pyulog) 저장소에 
-There are several scripts to analyze and convert logging files in the
-[pyulog](https://github.com/PX4/pyulog) repository.
+[pyulog](https://github.com/PX4/pyulog) 저장소에서 로깅 파일을 분석하고 변환하는 여러 스크립트가 있습니다.
 
-## Dropouts
+## 드롭아웃 (Dropouts)
 
-Logging dropouts are undesired and there are a few factors that influence the
-amount of dropouts:
-- Most SD cards we tested exhibit multiple pauses per minute. This shows
-  itself as a several 100 ms delay during a write command. It causes a dropout
-  if the write buffer fills up during this time. This effect depends on the SD
-  card (see below).
-- Formatting an SD card can help to prevent dropouts.
-- Increasing the log buffer helps.
-- Decrease the logging rate of selected topics or remove unneeded topics from
-  being logged (`info.py <file>` is useful for this).
+로깅 손실이 발생하는 것은 바람직하지 않으면 손실되는 양에 영향을 미치는 몇 가지 요소들이 있습니다. :
+- 테스트한 대부분 SD카드는 분당 여러번 멈추는 현상이 있었습니다. write 명령 동안 여러 번 100ms delay가 있습니다. writer buffer가 이 시간동안 채워지면 드롭아웃이 발생합니다. 이런 현상은 SD카드에 따라 발생합니다.(아래 참조)
+- SD 카드를 포맷하면 드롭아웃을 예방하는데 도움이 될 수도 있습니다.
+- 로그 버퍼를 증가도 도움이 됩니다.
+- 선택한 topic의 로깅 rate를 줄이거나 로깅된 불필요한 topic을 삭제합니다. (이런 경우 `info.py <file>`가 유용)
 
 ## SD Cards
 The following provides performance results for different SD cards.
