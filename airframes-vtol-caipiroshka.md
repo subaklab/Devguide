@@ -1,10 +1,10 @@
 # TBS Caipiroshka
 
-The Caipiroshka VTOL is a slightly modified TBS Caipirinha.
+Caipiroshka VTOL는 TBS Caipirinha를 약간 수정한 것입니다.
 
 {% youtube %}https://www.youtube.com/watch?v=acG0aTuf3f8&vq=hd720{% endyoutube %}
 
-## Parts List
+## 부품 리스트
 
   * TBS Caipirinha Wing ([Eflight store](http://www.eflight.ch/shop/USER_ARTIKEL_HANDLING_AUFRUF.php?von_suchresultat=true&Ziel_ID=19638&Kategorie_ID=110923))
   * Left and right 3D-printed motor mount ([design files](parts/motor_mounts.zip))
@@ -15,25 +15,26 @@ The Caipiroshka VTOL is a slightly modified TBS Caipirinha.
     * [ePower 2208](http://www.eflight.ch/pi/ePower-X-22081.html)
   * 2x 20-30S ESC
     * [Eflight store](http://www.eflight.ch/shop/USER_ARTIKEL_HANDLING_AUFRUF.php?von_suchresultat=true&Ziel_ID=19713&Kategorie_ID=36077)
-  * BEC (3A, 5-5.3V) (only needed if you are using ESCs which cannot act as a 5V power supply for the output rail)
+  * BEC (3A, 5-5.3V) (5V 파워 공급을 수행하지 않는 ESC를 사용하는 경우에만 필요)
   * 3S 2200 mA LiPo battery
     * Team Orion 3S 11.1V 50 C ([Brack store](https://www.brack.ch/team-orion-2200mah-11-1v-50c-308340))
   * [Pixracer autopilot board + power module](hardware-pixracer.md)
   * [Digital airspeed sensor](http://www.hobbyking.com/hobbyking/store/__62752__HKPilot_32_Digital_Air_Speed_Sensor_And_Pitot_Tube_Set.html)
 
-## Assembly
-The picture below shows an example of how a fully assembled Caipiroshka could look like.
+## 조립
+아래 사진은 전체 Caipiroshka를 조립하면 어떤 모양인지를 보여줍니다.
 
 ![Caipiroshka](images/airframes/vtol/caipiroshka/caipiroshka.jpg)
 
-In the following some general tips on how to build the vehicle will be given.
+다음에는 비행체를 조립하는 방법에 대한 일반적인 팁을 알려드립니다.
 
 ### Autopilot
-Mount the autopilot in the middle close to the CG of the airframe.
+airframe의 무게중심(CG)와 가까운 중간에 autopilot을 장착합니다.
 
-### Motor mounts
-Print the motor mount (2 times) of which the link to the STL file was specified in the part list.
+### Motor 장착
+
 Attach one motor mount on each wing side such that the motor axis will be roughly going through the center of the elevons (see picture).
+Print the motor mount (2 times) of which the link to the STL file was specified in the part list.
 In the upper picture the horizontal distance between the two motor mounts is 56cm. Once you have marked the correct position on the wing you can
 cover the area which will be in contact with the mount with standard transparent tape on both the upper and lower wing side. Then apply a layer of hot glue onto this area and glue the motor
 mount onto the wing. The reason for having tape in between the wing surface and the hot glue is that you can very easily remove the motor mount
@@ -80,4 +81,3 @@ The descriptions in the table below are referring to the user facing the front o
 | MAIN4 | 400 Hz | Empty |
 | MAIN5 | 50 Hz | Left aileron servo |
 | MAIN6 | 50 Hz | Right aileron servo |
-
