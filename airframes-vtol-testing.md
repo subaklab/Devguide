@@ -1,28 +1,28 @@
-# VTOL Testing
+# VTOL 테스팅
 
-How-to test that the VTOL functions properly, main focus are transitions:
+VTOL 기능으르 테스트하는 방법으로 핵심은 transition :
 
-  * On the bench
-  * In flight
+  * 대기 상태 (On the bench)
+  * 비행 중 (In flight)
 
-## General notes on transitions
+## transition 중 일반 주의내용
 
-There are currently 3 ways of commanding the VTOL to transition:
+현재 제공하는 VTOL에 transiton 명령을 내리는 3가지 방식 :
 
-  * RC switch (2 pos, aux1)
-  * MAVLink command (MAV_CMD_DO_VTOL_TRANSITION)
-  * Transition during mission (MAV_CMD_DO_VTOL_TRANSITION internally)
+  * RC 스위치 (2 pos, aux1)
+  * MAVLink 명령 (MAV_CMD_DO_VTOL_TRANSITION)
+  * mission 중에 transition (내부적으로 MAV_CMD_DO_VTOL_TRANSITION)
 
-When a transition is commanded (by either of the methods above), the VTOL enters the transition phase. If the VTOL receives a new transition command back to the old state during an ongoing transition it will switch back instantly. This is a safety feature to abort the transition when necessary. After the transition has been completed, the VTOL will be in the new state and a commanded transition into the reverse direction will take place normally.
+위 방법중에 하나로 transition 명령이 내리면, VTOL은 transition phase로 들어갑니다. 만약 VTOL이 transiton을 진행 중인 상태에서 이전 상태로 돌아가는 새로운 transition 명령을 받으면, 바로 이전 상태로 돌아갑니다. 필요한 경우 transition을 취소하는 것은 안전과 관련된 기능입니다. transition이 완료되면, VTOL은 새로운 상태로 들어갔으므로 반대 방향의 transition 명령은 정상적으로 수행하게 됩니다.
 
 <aside class="note">
-Make sure the AUX1 channel is assigned to an RC switch and that airspeed is working properly.
+AUX1 채널을 RC 스위치에 할당하고 airspeed가 정상적으로 동작하는지 확인합니다.
 </aside>
 
 ## On the bench
 
 <aside class="caution">
-Remove all props! To test transition functionality properly, the vehicle needs to be armed.
+모든 프로펠러를 제거합니다! transition 기능을 제대로 테스트하기 위해서 비행체는 arm 상태로 되어 있어야 합니다.
 </aside>
 
 By default, starting in multirotor mode:
@@ -102,7 +102,7 @@ The following procedure can be used to test a mission with transition:
   * observe transition back to multirotor mode
   * disable mission
   * land manually
-  
+
 During flight, the manual transition switch stays in multirotor position. If something doesn't go as planned, switch to manual and it will recover in multirotor mode.
 
 #### Example mission
@@ -120,5 +120,3 @@ The mission should contain at least (also see screenshots below):
 ![Mission, showing transition WP to plane](images/vtol/qgc_mission_example_a.png)
 
 ![Mission, showing transition WP to hover](images/vtol/qgc_mission_example_b.png)
-
-
