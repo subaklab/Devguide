@@ -24,8 +24,7 @@ PX4는 2개 주요 레이어로 구성 : [PX4 flight stack](concept-flight-stack
 
 ## GCS를 이용하는 통신 아키텍쳐
 
-GCS로 상호작용은 "business logic"을 통해 처리됩니다. 여기에는 commander, navigator, mavlink application이 포함됩니다. 
-The interaction with the ground control station (GCS) is handled through the "business logic" applications including the commander (general command & control, e.g. arming), the navigator (accepts missions and turns them into lower-level navigation primitives) and the mavlink application, which accepts MAVLink packets and converts them into the onboard uORB data structures. This isolation has been architected explicitly to avoid having a MAVLink dependency deep in the system. The MAVLink application also consumes a lot of sensor data and state estimates and sends them to the ground control station.
+GCS와 상호작용은 "business logic"을 통해 처리됩니다. 여기에는 commander(일반적인 명령과 제어로 예제로 arming), navigator(mission 수용 및 이를 낮은 단계의 navigation으로 변환), mavlink application이 포함됩니다. MAVLink 패킷을 받아서 onboard uORB 자료구조로 변환합니다. 이렇게 분리하는 이유는 시스템내에서 MAVLink와 깊은 의존을 갖는 것을 명시적으로 방지하기 위한 구조입니다. MAVLink application은 많은 sensor 데이터를 사용하며, estimate를 사용하고 이를 ground control station으로 보냅니다.
 
 {% mermaid %}
 graph TD;

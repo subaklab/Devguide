@@ -31,83 +31,55 @@ module: <module>
 ignore_others: <true/false>
 ```
 
-  It means that the given list of topics should only be published by `<module>`
-  (which is the command name). Publications to any of these topics from another
-  module are silently ignored. If `ignore_others` is `true`, then publications
-  to other topics from `<module>` are ignored.
+  주어진 topics 리스트는 반드시 `<module>`(command 이름)로 publish되어야 합니다. 다른 module로부터 이 topic들 중에 publish는 무시됩니다. 만약 `ignore_others`가 `true`라면, `<module>`로부터 다른 topic으로 publish는 무시됩니다.
 
-  For replay, we only want the `replay` module to be able to publish the
-  previously identified list of opics. So for replaying `ekf2`, the rules file
-  looks like this:
+  replay에 대해서는 `replay` 모듈이 이전에 구분한 topic 목록을 publish할 수 있도록 원합니다. `ekf2`을 replay하는데 있어서 rule 파일은 다음과 같습니다. :
 ```
 restrict_topics: sensor_combined, vehicle_gps_position, vehicle_land_detected
 module: replay
 ignore_others: true
 ```
-  This allows that the modules, which usually publish these topics, don't need
-  to be disabled for replay.
+  이렇게 하는 경우, 일반적으로 여기 topic들을 publish하는 module이 replay에 대해서 disable하지 않아도 됩니다.
 
-- Optional: setup parameter overrides in the file
+- Optional: setup parameter를 아래 파일에 덮어쓴다.
   `build_posix_sitl_default_replay/tmp/rootfs/replay_params.txt`.
-  This file should contain a list of `<param_name> <value>`, like:
+  이 파일은 `<param_name> <value>`의 목록을 포함해야만 한다. 다음과 같다. :
 ```
 EKF2_GB_NOISE 0.001
 ```
-  By default, all parameters from the log file are applied. When a parameter
-  changed during recording, it will be changed as well at the right time during
-  replay. A parameter in the `replay_params.txt` will override the value and
-  changes to it from the log file will not be applied.
-- Optional: copy `dataman` missions file from the SD card to the build
-  directory. Only necessary if a mission should be replayed.
+  기본적으로 log 파일에 모든 parameter가 적용됩니다. parameter가 저장하는 동안 변경되면, replay 하는 동안 해당 타이밍에 변경될 것입니다. `replay_params.txt` 내부에 parameter는 값을 덮어쓰고 log 파일에서 parameter가 변경되는 경우에는 적용되지 않습니다.
+- Optional: SD 카드에 있는 `dataman` mission 파일을 해당 build 디렉토리에 복사. mission이 replay인 경우에만 필요.
 - Start the replay:
 ```sh
   make posix_sitl_default jmavsim
 ```
-  This will automatically open the log file, apply the parameters and start
-  to replay. Once done, it will be reported and the process can be exited. Then
-  the newly generated log file can be analyzed, it has `_replayed` appended to
-  its file name.
+  이렇게 하면 자동으로 log 파일을 열어서 paramter를 적용하고 replay를 시작합니다. 일단 완료되면, 결과를 리포팅하고 해당 process는 종료됩니다. 다음으로 새로 생성된 log 파일은 분석하고 `_replayed`가 파일이름에 추가됩니다.
 
-  Note that the above command will show the simulator as well, but depending on
-  what is being replayed, it will not show what's actually going on. It's
-  possible to connect via QGC and e.g. view the changing attitude during replay.
+  위 command는 simulator로도 보여집니다. 하지만 무엇을 replay하느냐에 따라서 실제로 진행되는 것을 보여주지 않을 수도 있습니다. 예를 든다면 QGC 연결을 통해서 가능하며 예를 들자면 replay 동안 attitude 변경을 볼 수 있습니다.
 
-- Finally, unset the environment variable, so that the normal build targets
-  are used again:
+- 마지막으로 환경 변수를 unset하는데 다시 일반 build target을 사용합니다. :
 ```sh
 unset replay
 ```
 
 ### Important Notes
 
-- During replay, all dropouts in the log file are reported. These have a
-  negative effect on replay and thus it should be taken care that dropouts are
-  avoided during recording.
-- It is currently only possible to replay in 'real-time', meaning as fast as the
-  recording was done. This is planned to be extended in the future.
-- A message that has a timestamp of 0 will be considered invalid and not be
-  replayed.
+- replay를 하는 동안 log 파일에 있는 모든 dropout을 리포팅합니다. 이렇게하면 replay에 부정적인 영향을 미치므로 recording시에는 dropout이 되지 않도록 신경써야만 합니다.
+- 현재 '실시간'으로 replay만 가능해서 recording만큼 빠르게 수행해야 합니다. 이 기능은 향후 확장될 예정입니다.
+- timestamp가 0인 message는 유효하지 않은 것으로 간주하며 replay할때 사용되지 않습니다.
 
 
 ## Behind the Scenes
 
-Replay is split into 3 components:
-- a replay module
+Replay는 3개 컴포넌트로 분리 :
+- replay 모듈
 - ORB publisher rules
-- time handling
+- time 처리
 
-The replay module reads the log and publishes the messages with the same speed
-as they were recorded. A constant offset is added to the timestamp of each
-message to match the current system time (this is the reason why all other
-timestamps need to be relative). The command `replay tryapplyparams` is executed
-before all other modules are loaded and applies the parameters from the log and
-user-set parameters. Then as the last command, `replay trystart` will again
-apply the parameters and start the actual replay. Both commands do nothing if
-the environment variable `replay` is not set.
+replay 모듈은 log를 읽고 record될 때와 동일한 속도로 message를 publish 합니다. 일정한 offset을 각 message의 timestamp에 추가하여 현재 system time과 매치(모든 timestamp가 상대적인 값인 이유)시킵니다. `replay tryapplyparams` 명령은 다른 모든 module들이 load되기 전에 실행해야하며 log에 있는 parameter와 user-set parameter를 적용합니다. 다음으로 마지막 명령 `replay trystart`은 다시 parameter를 적용하고 실제 replay를 시작시킵니다. 이 두가지 명령 모두 환경변수 `replay`가 설정되어 있지 않으면 아무런 일도 수행하지 않습니다.
 
 
-The ORB publisher rules allow to select which part of the system is replayed, as
-described above. They are only compiled for the posix SITL targets.
+ORB publisher rule은 위에 설명한 것처럼 system의 어느 부분이 replay될 것인지 선택합니다. posix SITL target에서만 컴파일됩니다.
 
 
-The **time handling** is still an **open point**, and needs to be implemented.
+**time 처리** 는 향후 구현이 필요합니다.
