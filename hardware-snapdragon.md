@@ -1,12 +1,12 @@
 # Snapdragon Flight Autopilot
 
-The Snapdragon Flight platform is a high-end autopilot / onboard computer which runs the PX4 Flight Stack on the DSP on the QuRT real time operating system using the [DSPAL API](https://github.com/ATLFlight/dspal) for POSIX compatibility. In comparison to [Pixhawk](hardware-pixhawk.md) it adds a camera and WiFi and high-end processing power, and different IO.
+Snapdragon Flight 플랫폼은 하이엔드 autopilot / onboard 컴퓨터입니다. PX4 Flight Stack이 DSP에서 실행되며 POSIX 인터페이스를 위해 [DSPAL API](https://github.com/ATLFlight/dspal)를 사용하는 QuRT 실시간 운영체제를 사용합니다. [Pixhawk](hardware-pixhawk.md)와 비교하면 카메라와 WiFi, 고성능 프로세싱 파워 그리고 다른 IO를 지원합니다.
 
-More information about the Snapdragon Flight platform is at [Snapdragon-Flight-Details](https://www.intrinsyc.com/qualcomm-snapdragon-flight-details/)
+Snapdragon Flight 플랫폼에 대해서 상세한 정보는 링크를 참조하세요. [Snapdragon-Flight-Details](https://www.intrinsyc.com/qualcomm-snapdragon-flight-details/)
 
 ![](images/hardware/hardware-snapdragon.jpg)
 
-## Quick Summary
+## 간단 요약
 
   * System-on-Chip: [Snapdragon 801](https://www.qualcomm.com/products/snapdragon/processors/801)
     * CPU: Quad-core 2.26 GHz Krait
@@ -43,7 +43,7 @@ More information about the Snapdragon Flight platform is at [Snapdragon-Flight-D
 ## Pinouts
 
 <aside class="warning">
-Although the Snapdragon uses DF13 connectors, the pinout is different from Pixhawk.
+Snapdragon은 DF13 커넥터를 사용하고 있지만 핀아웃은 Pixhawk와 다릅니다.
 </aside>
 
 ### WiFi
@@ -53,7 +53,7 @@ Although the Snapdragon uses DF13 connectors, the pinout is different from Pixha
 
 ### Connectors
 
-The default mapping of the serial ports is as follows:
+시리얼 포트의 기본 매핑은 다음과 같습니다. :
 
 | Device           | Description                           |
 | ---------------- | ------------------------------------- |
@@ -62,14 +62,14 @@ The default mapping of the serial ports is as follows:
 | ```/dev/tty-3``` | J12 (next to J13)                     |
 | ```/dev/tty-4``` | J9 (next to J15)                      |
 
-For a custom UART to BAM mapping, create a file called "blsp.config" and adb push it to ```/usr/share/data/adsp```. E.g., to keep the default mapping, your "blsp.config" should look as follows:
+BAM 매핑에 커스텀 UART를 위해 "blsp.config"라는 파일을 생성하고 adb는 ```/usr/share/data/adsp```로 push 합니다. 예로 기본 매핑을 유지하기 위해서 "blsp.config"는 다음과 같아야 합니다.
 
 tty-1 bam-9 2-wire  
 tty-2 bam-8 2-wire  
 tty-3 bam-6 2-wire  
 tty-4 bam-2 2-wire  
 
-Be sure to include the text "2-wire" at the end of each line to allow the UART to use only the TX and RX pins specified in the tables below.  If 2-wire is not specified (or if the file is not present on the target) the UART will default to using 4-wire mode and will require an additional two pins for RTS/CTS flow control.  This will cause a problem for any other type of I/O on the same connector, since the pins will be configured as RTS and CTS signals. If, for example, J9 (described below) was being used to connect to both a UART and an I2C device, the I2C signals on pin 4 and pin 6 would be configured as RTS and CTS signals, overriding the I2C SDA and SCL signals.
+각 라인의 끝에 "2-wire"를 포함하고 있는 이유는 아래 테이블에 지정한 UART에서 TX와 RX 핀만 사용을 허용하기 위해서입니다. 만약 2-wire가 지정되어 있지 않다면(타겟에 이 파일에 없는 경우) UART는 기본적으로 4-wire 모드를 사용하며 추가로 RTS/CTS flow control을 위해서 추가로 2 핀이 필요하게 됩니다. 동일한 커넥터에 I/O의 다른 타입에 문제를 발생시킬 수 있으면 핀은 RTS와 CTS 신호를 설정할 것입니다. 만약 에제로 J9(아래 설명한 바와 같이)가 UART와 I2C 장치모두에 연결되도록 했다면, pin 4와 pin 6에 있는 I2C 신호는 RTS와 CTS 신호로 설정되어 I2C SDA와 SCL 신호를 덮어쓰게 됩니다.
 
 #### J9 / GPS
 
@@ -128,7 +128,7 @@ Be sure to include the text "2-wire" at the end of each line to allow the UART t
 
 ### UART to Pixracer / Pixfalcon Wiring
 
-This interface is used to leverage the Pixracer / Pixfalcon as I/O interface board. Connect to `TELEM1` Pixfalcon and to `TELEM2` on Pixracer.
+이 인터페이스는 Pixracer / Pixfalcon를 마치 I/O 인터페이스 보드처럼 동작하게 합니다. Pixfalcon에서는 `TELEM1`에 연결하고 Pixracer에서는 `TELEM2`에 연결합니다.
 
 | Snapdragon J13 Pin | Signal | Comment | Pixfalcon / Pixracer Pin |
 | -- | -- | -- | -- |
@@ -141,13 +141,13 @@ This interface is used to leverage the Pixracer / Pixfalcon as I/O interface boa
 
 ### GPS Wiring
 
-Even though the 3DR GPS is described to have a 5v input, operation with 3.3V seems to work fine. (The built-in regulator MIC5205 has a minimum operating voltage of 2.5v.)
+3DR GPS가 5v 입력을 가진다고 설명하고 있지만, 3.3v로도 잘 동작하는 걸로 보입니다. (빌트인 regulator MIC5205는 최소 2.5v의 전압에서 동작)
 
 | Snapdragon J9 Pin | Signal   | Comment       | 3DR GPS 6pin/4pin  | Pixfalcon GPS pin | 3DR PIXHAWK MINI GPS |
 | ----------------- | ---------| ------------- | ------------------ | ----------------- | -------------------  |
 | 1                 | 3.3V     | (3.3V)        | 1                  | 4                 |3 (5V)                |
 | 2                 | UART2_TX | Output (3.3V) | 2/-                | 3                 |4                     |
-| 3                 | UART2_RX | Input (3.3V)  | 3/-                | 2                 |5                     | 
+| 3                 | UART2_RX | Input (3.3V)  | 3/-                | 2                 |5                     |
 | 4                 | I2C2_SDA | (3.3V)        | -/3                | 5                 |2                     |
 | 5                 | GND      |               | 6/-                | 1                 |6                     |
 | 6                 | I2C2_SCL | (3.3V)        | -/2                | 6                 |1                     |
@@ -155,4 +155,3 @@ Even though the 3DR GPS is described to have a 5v input, operation with 3.3V see
 ## Dimensions
 
 ![](images/hardware/hardware-snapdragon-dimensions.png)
-
