@@ -147,27 +147,26 @@ adb reboot
 
 ### 시리얼 포트 사용하기
 
-모든 POSIX 호출
-Not all POSIX calls are currently supported on QURT. Therefore, some custom ioctl are needed.
+모든 POSIX를 QURT에서 지원하지는 않습니다. 따라서 일부 커스텀 ioctl이 필요합니다.
 
-The APIs to set up and use the UART are described in [dspal](https://github.com/PX4/dspal/blob/master/include/dev_fs_lib_serial.h).
+셋업을 위한 API와 UART를 사용하는 방법을 [dspal](https://github.com/PX4/dspal/blob/master/include/dev_fs_lib_serial.h)에서 설명합니다.
 
-## Wifi-settings
+## Wifi 셋팅
 
-<aside class="todo">These are notes for advanced developers.</aside>
+<aside class="todo">이 부분은 고급 개발자를 위한 부분입니다.</aside>
 
-Connect to the Linux shell (see [console instructions](advanced-system-console.html#snapdragon-flight-wiring-the-console)).
+Linux shell에 연결하기 ( [console instructions](advanced-system-console.html#snapdragon-flight-wiring-the-console) 참고).
 
-### Access point mode
+### point mode 접근
 
-If you want the Snapdragon to be a wifi access point (AP mode), edit the file: `/etc/hostapd.conf` and set:
+만약에 Snapdragon이 wifi access point(AP mode)로 동작하기를 원한다면 `/etc/hostapd.conf` 파일을 다음과 같이 수정 :
 
 ```
 ssid=EnterYourSSID
 wpa_passphrase=EnterYourPassphrase
 ```
 
-Then configure AP mode:
+다음으로 AP mode 설정 :
 
 ```
 /usr/local/qr-linux/wificonfig.sh -s softap
@@ -176,7 +175,7 @@ reboot
 
 ### Station mode
 
-If you want the Snapdragon to connect to your existing wifi, edit the file: `/etc/wpa_supplicant/wpa_supplicant.conf` and add your network settings:
+Snapdragon으로 기존 wifi에 연결하고자 한다면, `/etc/wpa_supplicant/wpa_supplicant.conf` 파일에 네트워크 셋팅을 추가 :
 
 ```
 network={
@@ -185,7 +184,7 @@ network={
 }
 ```
 
-Then configure station mode:
+다음으로 station mode 설정 :
 
 ```
 /usr/local/qr-linux/wificonfig.sh -s station
@@ -193,25 +192,25 @@ reboot
 ```
 
 
-## Troubleshooting
+## 문제해결
 
-### adb does not work
+### adb가 동작하지 않을 때
 
-- Check [permissions](#usb-permissions)
-- Make sure you are using a working Micro-USB cable.
-- Try a USB 2.0 port.
-- Try front and back ports of your computer.
+- [permissions](#usb-permissions) 확인
+- 마이크로 USB 케이블에 문제 없는지 확임
+- USB 2.0 포트로 시도
+- 컴퓨터의 앞/뒤 포트들에 연결
 
 
 ### USB permissions
 
-1) Create a new permissions file
+1) 새로운 permission 파일을 생성
 
 ```
 sudo -i gedit /etc/udev/rules.d/51-android.rules
 ```
 
-paste this content, which enables most known devices for ADB access:
+이 내용을 붙이면 널리 알려진 장치를 ADB access로 활성화 시킨다.
 
 ```
 SUBSYSTEM=="usb", ATTRS{idVendor}=="0bb4", MODE="0666", GROUP="plugdev"
@@ -247,13 +246,13 @@ SUBSYSTEM=="usb", ATTRS{idVendor}=="0930", MODE="0666", GROUP="plugdev"
 SUBSYSTEM=="usb", ATTRS{idVendor}=="19d2", MODE="0666", GROUP="plugdev"
 ```
 
-Set up the right permissions for the file:
+해당 파일에 대해서 올바른 permission을 설정 :
 
 ```
 sudo chmod a+r /etc/udev/rules.d/51-android.rules
 ```
 
-Restart the deamon
+daemon 재시작
 
 ```
 sudo udevadm control --reload-rules
@@ -261,59 +260,59 @@ sudo service udev restart
 sudo udevadm trigger
 ```
 
-If it still doesn't work, check [this answer on StackOverflow](http://askubuntu.com/questions/461729/ubuntu-is-not-detecting-my-android-device#answer-644222).
+만약 여전히 동작하지 않는 경우라면 [this answer on StackOverflow](http://askubuntu.com/questions/461729/ubuntu-is-not-detecting-my-android-device#answer-644222)를 참조합니다.
 
 
-### Board doesn't start / is boot-looping / is bricked
+### Board가 구동되지 않는 경우 / 무한부팅 / 멈춘 상태 유지
 
-If you can still connect to the board using the serial console and get to a prompt such as:
+시리얼 콘솔을 사용해서 보드에 연결이 되고 다음과 같은 프롬프트가 보인다면 :
 
 ```
 root@linaro-developer:~#
 ```
 
-You can get into fastboot (bootloader) mode by entering:
+fastboot(bootloader) mode로 진입 :
 
 ```
 reboot2fastboot
 ```
 
-If the serial console is not possible, you can try to connect the Micro USB cable, and enter:
+만약 시리얼 콘솔이 불가능하다면 마이크로 USB 케이블을 연결하여 진입 :
 
 ```
 adb wait-for-device && adb reboot bootloader
 ```
 
-Then power cycle the board. If you're lucky, adb manages to connect briefly and can send the board into fastboot.
+다음으로 보드에 전원 공급합니다. 운이 좋다면 바로 adb로 연결되고 보드를 fastboot로 되게 합니다..
 
-To check if it's in fastboot mode, use:
+fastboot mode 상태인지 확인하는 방법 :
 
 ```
 fastboot devices
 ```
 
-Once you managed to get into fastboot mode, you can try [above teps](#upgradingreplacing-the-linux-image) to update the Android/Linux image.
+일단 fastboot mode로 진입하면,  [above teps](#upgradingreplacing-the-linux-image)를 참고하여 Android/Linux 이미지를 업데이트합니다.
 
-If you happen to have a [P2 board](#do-i-have-a-p1-or-p2-board), you should be able to reset the Snapdragon to the recovery image by starting up the Snapdragon while shorting the two pins next to where J3 is written (The two rectangular pins in-between the corner hole and the MicroSD card slot almost at the edge of the board.
+[P2 board](#do-i-have-a-p1-or-p2-board)가 있다면, Snapdragon을 구동시킬 때 복구 이미지로 Snapdragon을 리셋시킬 수 있습니다. J3라고 쓰여진 곳 옆에 2개 pin을 쇼트시킵니다. (코너에 있는 구멍과 MicroSD카드 슬롯 사이에 2개의 정사각형 pin)
 
-If everything fails, you probably need to request help from intrinsyc.
+모든 것이 다 실패라면 intrinsyc에 도움을 요청해야 합니다.
 
 
-### No space left on device
+### 장치에 남은 공간이 없는 경우
 
-Sometimes `make eagle_default upload` fails to upload:
+가끔 `make eagle_default upload` 명령이 실패 :
 
 ```
 failed to copy 'px4' to '/home/linaro/px4': No space left on device
 ```
 
-This can happen if ramdumps fill up the disk. To clean up, do:
+ramdumps가 디스크 공간을 다 채우는 경우 발생합니다. 지우는 방법 :
 
 ```
 rm -rf /var/log/ramdump/*
 ```
 
-Also, the logs might have filled the space. To delete them, do:
+또한 log로 공간이 다찬 경우입니다. 삭제하는 방법 :
 
 ```
 rm -rf /root/log/*
@@ -323,23 +322,23 @@ rm -rf /root/log/*
 
 #### _FDtest
 
-If you see the following output on mini-dm when trying to start the px4 program, it means that you need to [update the ADSP firmware](#updating-the-adsp-firmware):
+px4 프로그램을 구동시킬때, mini-dm에서 다음과 같은 출력을 보게 되는 경우 [update the ADSP firmware](#updating-the-adsp-firmware)와 같이 업그레이드가 필요하다는 뜻입니다 :
 
 ```
 [08500/03]  05:10.960  HAP:45:undefined PLT symbol _FDtest (689) /libpx4muorb_skel.so  0303  symbol.c
 ```
 
-#### Something else
+#### 그 이외
 
-If you have changed the source, presumably added functions and you see `undefined PLT symbol ...` it means that the linking has failed.
+소스를 변경한 경우, 함수가 추가되어 `undefined PLT symbol ...`를 보게 되는 경우가 있는데 이는 linking이 실패한 경우입니다.
 
-- Do the declaration and definition of your function match one to one?
-- Is your code actually getting compiled?
-Is the module listed in the [cmake config](https://github.com/PX4/Firmware/blob/master/cmake/configs/qurt_eagle_default.cmake)?
-- Is the (added) file included in the `CMakeLists.txt`?
-- Try adding it to the POSIX build and running the compilation. The POSIX linker will inform you about linking errors at compile/linking time.
+- 여러분이 작성한 함수는 1:1로 선언과 정의가 매칭시켰는가?
+- 여러분의 코드는 정말 컴파일이 되는가?
+[cmake config](https://github.com/PX4/Firmware/blob/master/cmake/configs/qurt_eagle_default.cmake)에 찾을 수 있는 모듈인가?
+- 추가한 파일이 `CMakeLists.txt`에 포함되어 있는가?
+- POSIX 블드에 추가해보고 컴파일을 실행해 봅니다. POSIX linker가 compile/linking 할때 linking 에러를 알려줍니다.
 
-### krait update param XXX failed on startup
+### 구동시 에러 메시지 : krait update param XXX failed
 
 ```
 ERROR [platforms__posix__px4_layer] krait update param 297 failed
@@ -350,19 +349,19 @@ ERROR [muorb] Initialize Error calling the uorb fastrpc initalize method..
 ERROR [muorb] ERROR: FastRpcWrapper Not Initialized
 ```
 
-If you get errors like the above when starting px4, try
-- [upgrading the Linux image](#upgradingreplacing-the-linux-image)
-- and [updating the ADSP firmware](#updating-the-adsp-firmware). Also try to do this from a native Linux installation instead of a virtual machine. There have been [reports](https://github.com/PX4/Firmware/issues/5303) where it didn't seem to work when done in a virtual machine.
-- then [rebuild the px4 software](http://dev.px4.io/starting-building.html#building-px4-software), by first completely deleting your existing Firmware repo and then recloning it [as described here](http://dev.px4.io/starting-building.html#compiling-on-the-console)
-- and finally [rebuild and re-run it](http://dev.px4.io/starting-building.html#qurt--snapdragon-based-boards)
-- make sure the executable bit of `/usr/local/qr-linux/q6-admin.sh` is set:
+px4를 시작할 때 위와 같은 에러를 보게 된다면, 다음을 시도해 봅니다
+- [Linux image 업그레이드](#upgradingreplacing-the-linux-image)
+- 그리고 [ADSP 펌웨어 업데이트](#updating-the-adsp-firmware). 가상머신 대신에 실제 Linux가 설치된 상태에서 시도합니다. 가산머신을 이용하는 경우 동작하는 않는 [reports](https://github.com/PX4/Firmware/issues/5303)가 있습니다.
+- 다음으로 [px4 소프트웨어를 재빌드](http://dev.px4.io/starting-building.html#building-px4-software)하는데, 처음에 완전히 기존 Firmware repo를 삭제하고 다시 clone합니다. [참조](http://dev.px4.io/starting-building.html#compiling-on-the-console)
+- 마지막으로 [재빌드 및 재실행](http://dev.px4.io/starting-building.html#qurt--snapdragon-based-boards)
+- `/usr/local/qr-linux/q6-admin.sh`의 실행부가 다음과 같이 설정되어 있는지 확인 :
   `adb shell chmod +x /usr/local/qr-linux/q6-admin.sh`
 
-### ADSP restarts
+### ADSP 재시작 시키기
 
-If the mini-dm console suddently shows a whole lot of INIT output, the ADSP side has crashed. The reasons for it are not obvious, e.g. it can be some segmentation fault, null pointer exception, etc..
+만약 mini-dm 콘솔이 갑자기 엄청나게 많은 INIT을 출력한다면 ADSP쪽에 문제가 생긴 것입니다. 이에 대한 이유는 명확하지는 않습니다. 세그먼테이션 폴트나 null 포인터 에러 등의 원인 때문일 수 있습니다.
 
-The mini-dm console output typically looks like this:
+mini-dm 콘솔의 출력은 일반적으로 다음과 같은 형태 :
 
 ```
 [08500/02]  20:32.332  Process Sensor launched with ID=1   0130  main.c
@@ -404,9 +403,9 @@ The mini-dm console output typically looks like this:
 [08500/02]  20:32.550  HAP:76:cannot find /voiceproc_rx.so  0141  load.c
 ```
 
-### Do I have a P1 or P2 board?
+### P1이나 P2 보드를 가지고 있나?Do I have a P1 or P2 board?
 
-The silkscreen on the Snapdragon reads something like:
+Snapdragon에 실크스크린된 다음과 같은 부분을 읽어봅시다 :
 
 ```
 1DN14-25-
@@ -415,8 +414,8 @@ REV A
 QUALCOMM
 ```
 
-If you see **H9550**, it means you have a P2 board!
+만약 **H9550**가 보이면 P2 보드입니다.
 
-**Please ignore that it says -P1.**
+**-P1 부분은 무시해도 됩니다.**
 
 Presumably P1 boards don't have a factory partition/image and therefore can't be restored to factory state.

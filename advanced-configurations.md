@@ -43,8 +43,7 @@ param save
 param save /fs/microsd/vtol_param_backup
 ```
 
-파라미터를 로드하는 2가지 다른 명령이 있습니다: ```param load```는 파일을 로드하고 현재 파라미터를 로드한 값으로 변경합니다. 결국 파라미터가 저장될 때 로드한 상태를 1:1로 복사하는 것이 됩니다. ```param import```는 좀더 어렵습니다 : 기본값에서 변경된 파라미터 값만 변경합니다. 초기에 보드를 칼리브레이션할 때 유용합니다. 시스템 설정의 나머지 부분을 덮어쓰기 하지 않고 칼리브레이션 데이터를 임포트할 수 있습니다.
-There are two different commands to load parameters: ```param load``` will load a file and replace the current parameters with what is in this file, resulting in a 1:1 copy of the state that was present when these parameters were stored. ```param import``` is more subtle: It will only change parameter values which have been changed from the default. This is great to e.g. initially calibrate a board (without configuring it further), then importing the calibration data without overwriting the rest of the system configuration.
+파라미터를 로드하는 2가지 명령이 있습니다: ```param load```는 파일을 로드하고 이 파일에 있는 값으로 현재 파라미터를 교체합니다. 결국 이 파라미터가 저장될 때 있던 상태를 결과적으로 1:1로 복사하는 것이 됩니다. ```param import```는 좀더 영리합니다. : 기본값에서 변경된 파라미터 값만 변경합니다. 처음으로 보드를 칼리브레이션할 때 유용하며 따라서 시스템 설정의 나머지 부분을 덮어쓰기 하지 않고 칼리브레이션 데이터를 import합니다.
 
 현재 파라미터를 덮어쓰기 :
 
