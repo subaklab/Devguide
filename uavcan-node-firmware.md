@@ -1,8 +1,8 @@
-# UAVCAN Firmware Upgrading
+# UAVCAN 펌웨어 업그레이드
 
-## Vectorcontrol ESC Codebase (Pixhawk ESC 1.6 and S2740VC)
+## Vectorcontrol ESC Codebase (Pixhawk ESC 1.6과 S2740VC)
 
-Download the ESC code:
+ESC 코드 다운로드 :
 
 <div class="host-code"></div>
 
@@ -13,7 +13,7 @@ cd vectorcontrol
 
 ### Flashing the UAVCAN Bootloader
 
-Before updating firmware via UAVCAN, the Pixhawk ESC 1.6 requires the UAVCAN bootloader be flashed. To build the bootloader, run:
+UAVCAN을 통해 펌웨어를 업데이트를 진행하기 전에, Pixhawk ESC 1.6은 flash를 마친 UAVCAN bootloader가 필요합니다. bootloader를 빌드하기 위해 다음을 실행 :
 
 <div class="host-code"></div>
 
@@ -21,9 +21,9 @@ Before updating firmware via UAVCAN, the Pixhawk ESC 1.6 requires the UAVCAN boo
 make clean && BOARD=px4esc_1_6 make -j8
 ```
 
-After building, the bootloader image is located at `firmware/px4esc_1_6-bootloader.bin`, and the OpenOCD configuration is located at `openocd_px4esc_1_6.cfg`. Follow [these instructions](uavcan-bootloader-installation.md) to install the bootloader on the ESC.
+빌드를 마치고 bootloader 이미지가 `firmware/px4esc_1_6-bootloader.bin`에 생깁니다. OpenOCD 설정은 `openocd_px4esc_1_6.cfg`에 있습니다. bootloader를 ESC에 설치하기 위해 [these instructions](uavcan-bootloader-installation.md)을 따라합니다.
 
-### Compiling the Main Binary
+### 메인 바이너리 컴파일하기
 
 <div class="host-code"></div>
 
@@ -31,11 +31,11 @@ After building, the bootloader image is located at `firmware/px4esc_1_6-bootload
 BOARD=s2740vc_1_0 make && BOARD=px4esc_1_6 make
 ```
 
-This will build the UAVCAN node firmware for both supported ESCs. The firmware images will be located at `com.thiemar.s2740vc-v1-1.0-1.0.<git hash>.bin` and `org.pixhawk.px4esc-v1-1.6-1.0.<git hash>.binn`.
+지원하는 ESC에 대해서 UAVCAN 노드 펌웨어를 빌드합니다. 이 펌웨어 이미지는 `com.thiemar.s2740vc-v1-1.0-1.0.<git hash>.bin`와 `org.pixhawk.px4esc-v1-1.6-1.0.<git hash>.binn`에 생깁니다.
 
 ## Sapog Codebase (Pixhawk ESC 1.4)
 
-Download the Sapog codebase:
+Sapog codebase 다운로드 :
 
 <div class="host-code"></div>
 
@@ -47,7 +47,7 @@ git submodule update --init --recursive
 
 ### Flashing the UAVCAN Bootloader
 
-Before updating firmware via UAVCAN, the Pixhawk ESC 1.4 requires the UAVCAN bootloader be flashed. The bootloader can be built as follows:
+UAVCAN을 통해 펌웨어를 업데이트를 진행하기 전에, Pixhawk ESC 1.6은 flash를 마친 UAVCAN bootloader가 필요합니다. bootloader를 빌드하기 위해 다음을 실행 :
 
 <div class="host-code"></div>
 
@@ -57,9 +57,9 @@ make clean && make -j8
 cd ..
 ```
 
-The bootloader image is located at `bootloader/firmware/bootloader.bin`, and the OpenOCD configuration is located at `openocd.cfg`. Follow [these instructions](uavcan-bootloader-installation.md) to install the bootloader on the ESC.
+bootloader 이미지가 `bootloader/firmware/bootloader.bin`에 생깁니다. OpenOCD 설정은 `openocd.cfg`에 있습니다. bootloader를 ESC에 설치하기 위해 [these instructions](uavcan-bootloader-installation.md)을 따라합니다.
 
-### Compiling the Main Binary
+### 메인 바이너리 컴파일하기
 
 <div class="host-code"></div>
 
@@ -67,36 +67,36 @@ The bootloader image is located at `bootloader/firmware/bootloader.bin`, and the
 cd firmware
 make sapog.image
 ```
-The firmware image will be located at `firmware/build/org.pixhawk.sapog-v1-1.0.<xxxxxxxx>.bin`, where `<xxxxxxxx>` is an arbitrary sequence of numbers and letters.
+펌웨어 이미지는 `firmware/build/org.pixhawk.sapog-v1-1.0.<xxxxxxxx>.bin`에 생성됩니다. `<xxxxxxxx>`는 숫자와 문자로된 임의의 순서를 나타냅니다.
 
 ## Zubax GNSS
 
-Please refer to the [project page](https://github.com/Zubax/zubax_gnss) to learn how to build and flash the firmware.
-Zubax GNSS comes with a UAVCAN-capable bootloader, so its firmware can be updated in a uniform fashion via UAVCAN as described below.
+펌웨어 빌드와 flash 방법은 [project page](https://github.com/Zubax/zubax_gnss) 사이트를 참고합니다.
+Zubax GNSS는 UAVCAN 가능한 bootloader가 들어가 있으며, 이 펌웨어는 UAVCAN을 통해 아래 설명과 같이 동일한 방식으로 업데이트할 수 있습니다.
 
-## Firmware Installation on the Autopilot
+## Autopilot에 Firmware 설치
 
-The UAVCAN node file names follow a naming convention which allows the Pixhawk to update all UAVCAN devices on the network, regardless of manufacturer. The firmware files generated in the steps above must therefore be copied to the correct locations on an SD card or the PX4 ROMFS in order for the devices to be updated.
+Pixhawk가 네트워크에 연결된 모든 UAVCAN 장치를 업데이트할려면 UAVCAN 노드 파일 이름의 규칙을 따라야 합니다. 위에 단게에서 생성된 펌웨어 파일은 SD 카드에 올바른 위치 혹은 업데이트할 장치를 위해 PX4 ROMFS에 복사해야만 합니다.
 
-The convention for firmware image names is:
+펌웨어 이미지 이름의 규칙은 :
 
   ```<uavcan name>-<hw version major>.<hw version minor>-<sw version major>.<sw version minor>.<version hash>.bin```
 
-  e.g. ```com.thiemar.s2740vc-v1-1.0-1.0.68e34de6.bin```
+  예제 ```com.thiemar.s2740vc-v1-1.0-1.0.68e34de6.bin```
 
-However, due to space/performance constraints (names may not exceed 28 charates), the UAVCAN firmware updater requires those filenames to be split and stored in a directory structure like the following:
+하지만 공간/성능 제약으로(28 글자를 넘지 않음) UAVCAN 펌웨어 업데이터는 파일들을 다음과 같은 디렉토리 구조에 분리해서 저장합니다. :
 
   ```/fs/microsd/fw/<node name>/<hw version major>.<hw version minor>/<hw name>-<sw version major>.<sw version minor>.<git hash>.bin```
 
- e.g. ```s2740vc-v1-1.0.68e34de6.bin```
+ 예제 ```s2740vc-v1-1.0.68e34de6.bin```
 
-The ROMFS-based updater follows that pattern, but prepends the file name with ```_``` so you add the firmware in:
+ROMFS 기반 업데이터는 패턴을 따르지만, 파일이름에 ```_```를 붙이기 때문에 다음과 같습니다. :
 
   ```/etc/uavcan/fw/<device name>/<hw version major>.<hw version minor>/_<hw name>-<sw version major>.<sw version minor>.<git hash>.bin```
 
-## Placing the binaries in the PX4 ROMFS
+## PX4 ROMFS에 바이너리 넣기
 
-The resulting finale file locations are:
+최종 파일의 위치는 :
 
   * S2740VC ESC: `ROMFS/px4fmu_common/uavcan/fw/com.thiemar.s2740vc-v1/1.0/_s2740vc-v1-1.0.<git hash>.bin`
   * Pixhawk ESC 1.6: `ROMFS/px4fmu_common/uavcan/fw/org.pixhawk.px4esc-v1/1.6/_px4esc-v1-1.6.<git hash>.bin`
@@ -104,15 +104,15 @@ The resulting finale file locations are:
   * Zubax GNSS v1: `ROMFS/px4fmu_common/uavcan/fw/com.zubax.gnss/1.0/gnss-1.0.<git has>.bin`
   * Zubax GNSS v2: `ROMFS/px4fmu_common/uavcan/fw/com.zubax.gnss/2.0/gnss-2.0.<git has>.bin`
 
-Note that the ROMFS/px4fmu_common directory will be mounted to /etc on Pixhawk.
+ROMFS/px4fmu_common 디렉토리는 Pixhawk에 /etc에 마운트된다는 것을 명심하세요.
 
-### Starting the Firmware Upgrade process
+### 펌웨어 업그레이드 절차 시작하기
 
 <aside class="note">
-When using the [PX4 Flight Stack](concept-flight-stack.md), enable UAVCAN in the 'Power Config' section and reboot the system before attempting an UAVCAN firmware upgrade.
+[PX4 Flight Stack](concept-flight-stack.md)를 사용할 때, 'Power Config' 섹션에서 UAVCAN을 활성화시키고 UAVCAN 펌웨어 업그레이드를 시도하기 전에 시스템을 reboot합니다.
 </aside>
 
-Alternatively UAVCAN firmware upgrading can be started manually on NSH via:
+UAVCAN 펌웨어 업그레이드는 수동으로 NSH에서 다음과 같이 진행할 수도 있습니다. :
 
 ```sh
 uavcan start

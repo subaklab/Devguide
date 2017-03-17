@@ -5,9 +5,9 @@
 
 {% youtube %}https://www.youtube.com/watch?v=DgPkecUOjFI{% endyoutube %}
 
-## Parts List
+## 부품 리스트
 
-### Frame/ Motors
+### 프레임 / 모터
 * QAV-R FPV Racing Quadcopter (5")
 * Lumenier 4Power Quick Swap Power Distribution Board
 * Lumenier RX2204-14 2300Kv Motor
@@ -20,5 +20,5 @@
 * Fat Shark 900TVL CCD FPV Camera (NTSC)
 * FatShark 5.8ghz 250mW A/V Transmitter
 
-### Accessories
-* Professional Travel Case for the QAV-R (nice to have)
+### 악세사리
+* QAV-R용 전문 여행용 케이스 (있으면 좋고)

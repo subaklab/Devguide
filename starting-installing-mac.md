@@ -1,6 +1,6 @@
-# Installing Files and Code
+# 파일과 코드 설치하기
 
-The first step is to install Xcode from the Mac app store. Once its installed, open a new terminal and install the command line tools:
+가장 먼저해야할 일은 Mac app store에서 Xcode를 설치하는 것입니다. 일단 설치해야 새로운 터미널도 열고 command line tool을 설치합니다. :
 
 <div class="host-code"></div>
 
@@ -8,11 +8,11 @@ The first step is to install Xcode from the Mac app store. Once its installed, o
 xcode-select --install
 ```
 
-## Homebrew Installation
+## Homebrew 설치
 
-Usage of the [Homebrew package manager](http://mxcl.github.com/homebrew/) for Mac OS X is recommended. The installation of Homebrew is quick and easy: [installation instructions](http://mxcl.github.com/homebrew/).
+Mac OS X를 사용하는 경우 [Homebrew package manager](http://mxcl.github.com/homebrew/) 사용을 권장합니다. Homebrew 설치는 [installation instructions](http://mxcl.github.com/homebrew/)를 따라하면 쉽고 간편합니다.
 
-After installing Homebrew, copy these commands to your shell:
+Homebrew를 설치한 후에, 이 명령을 shell에 복사합니다. :
 
 <div class="host-code"></div>
 
@@ -27,7 +27,7 @@ brew install ant graphviz sdformat3 eigen protobuf
 brew install homebrew/science/opencv
 ```
 
-Then install the required python packages:
+다음으로 필요한 python 패키지를 설치합니다. :
 
 <div class="host-code"></div>
 
@@ -36,20 +36,21 @@ sudo easy_install pip
 sudo pip install pyserial empy pandas jinja2
 ```
 
-### Java for jMAVSim
+### jMAVSim을 위한 Java
 
-If you're intending to use jMAVSim, you need to install [Java JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html).
+jMAVSim을 사용하고자 한다면, [Java JDK 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)을 설치해야 합니다.
 
 ## Snapdragon Flight
 
-Developers working on Snapdragon Flight should use an Ubuntu VM for the time being and follow the Linux instructions. Qualcomm provides reliable tooling for Ubuntu exclusively. The PX4 dev team had the most consistent experience with VMWare, in particular when it comes to USB stability.
+Snapdrong Flight에서 개발하는 경우 Ubuntu VM을 사용해야 합니다. Qualcomm은 Ubuntu용으로만 툴을 제공하고 있습니다. PX4 개발팀은 VMWare으로 개발하며 USB 안정성이 있습니다.
 
 ## Simulation
 
-OS X comes with CLANG pre-installed. No further installation steps are required.
+OS X는 CLANG이 미리 설치되어 있습니다. 추가적으로 설치하지 않아도 됩니다.
 
 ## Editor / IDE
 
-And finally download and install the Qt Creator app: [Download](http://www.qt.io/download-open-source/#section-6)
+마지막으로 Qt Creator app을 다운로드 받고 설치합니다. :
+[Download](http://www.qt.io/download-open-source/#section-6)
 
-Now continue to run the [first build](starting-building.md)!
+자 이제 [첫 빌드](starting-building.md)를 진행할 수 있습니다!

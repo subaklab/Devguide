@@ -1,38 +1,38 @@
 # QGroundControl
 
-QGroundControl is an app to configure and fly a PX4 based autopilot. It is cross platform and supports all major operating systems:
+QGroundControl은 PX4 기반 autopilot을 설정하고 날리는데 사용하는 app입니다. 크로스 플랫폼으로 개발되어 모든 주요 운영체제에서 동작합니다. :
 
-  * Mobile: Android and iOS (currently focused on tablet)
-  * Desktop: Windows, Linux, Mac OS
+  * 모바일: Android와 iOS (현재 타블릿에 초점)
+  * 데스크탑: Windows, Linux, Mac OS
 
 ## Planning Missions
 
-To plan a new mission, switch to the planning tab, click on the + icon in the top left and click on the map to create waypoints. A context menu will open on the side to adjust the waypoints. Click on the highlight transmission icon to send them to the vehicle.
+새로운 mission을 생성하기 위해서는 planning 탭으로 변경하고 왼쪽위에 있는 + 아이콘을 클릭하고 waypoint를 생성하기 위해서 map을 클릭합니다. context 메뉴는 waypoint를 조정하기 위해서 측면에서 실행됩니다. 비행체에 전송할려면 하이라이트된 transmission 아이콘을 클릭합니다.
 
 ![](images/gcs/planning-mission.png)
 
 ## Flying Missions
 
-Switch to the flying tab. The mission should be visible on the map. Click on the current flight mode to change it to MISSION and click on DISARMED to arm the vehicle. If the vehicle is already in flight it will fly to the first leg of the mission and then follow it.
+flying 탭으로 변경합니다. mission은 map에서 확인할 수 있습니다. 현재 flight mode를 클릭해서 MISSION으로 변경하고 비행체를 arm하기 위해서 DISARMED를 클릭합니다. 비행체가 이미 비행 중이라면 mission의 첫번째 위치로 날라가면서 mission을 수행하게 됩니다.
 
 ![](images/gcs/flying-mission.png)
 
-## Setting parameters
+## parameters 설정
 
-Switch to the setup tab. Scroll the menu on the left all the way to the bottom and click on the parameter icon. Parameters can be changed by double-clicking on them, which opens a context menu to edit, along with a more detailed description.
+setup 탭으로 변경합니다. 왼쪽에 있는 메뉴를 끝까지 내려서 parameter 아이콘을 클릭합니다. parameter를 더블클릭해서 수정이 가능하며 이렇게하면 context menu를 열게 됩니다.
 
 ![](images/gcs/setting-parameter.png)
 
-## Installation
+## 설치
 
-QGroundControl can be downloaded from its [website](http://qgroundcontrol.com/downloads).
+QGroundControl은 [website](http://qgroundcontrol.com/downloads)에서 다운받을 수 있습니다.
 
 <aside class="tip">
-Developers are advised to use the latest daily build instead of the stable release.
+개발자는 stable 버전보다는 최신 버전을 사용하는 것을 추천합니다.
 </aside>
 
-## Building from source
+## 소스에서 빌드하기
 
-Firmware developers are encouraged to build from source in order to have a matching recent version to their flight code.
+펌웨어 개발자는 최신 flight 코드와 매칭되는 소스를 받아서 빌드해야 하는 경우가 많습니다.
 
-Follow the [QGroundControl build instructions](https://github.com/mavlink/qgroundcontrol#obtaining-source-code) to install Qt and build the source code.
+Qt를 설치하고 소스코드를 빌드하는 방법은 [QGroundControl build instructions](https://github.com/mavlink/qgroundcontrol#obtaining-source-code)를 참고합니다.

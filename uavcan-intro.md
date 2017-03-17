@@ -1,29 +1,29 @@
-# UAVCAN Introduction
+# UAVCAN 소개
 
 ![](images/uavcan-logo-transparent.png)
 
-[UAVCAN](http://uavcan.org) is an onboard network which allows the autopilot to connect to avionics. It supports hardware like:
+[UAVCAN](http://uavcan.org)는 autopilot과 항공 전자기기를 연결하는 onboard 네트워크입니다. 다음과 같은 하드웨어를 지원 :
 
   * Motor controllers
     * [Pixhawk ESC](https://pixhawk.org/modules/pixhawk_esc)
     * [SV2740 ESC](https://github.com/thiemar/vectorcontrol)
   * Airspeed sensors
     * [Thiemar airspeed sensor](https://github.com/thiemar/airspeed)
-  * GNSS receivers for GPS and GLONASS
+  * GPS와 GLONASS용 GNSS receivers
     * [Zubax GNSS](http://zubax.com/product/zubax-gnss)
 
-In contrast to hobby-grade devices it uses rugged, differential signalling and supports firmware upgrades over the bus. All motor controllers provide status feedback and implement field-oriented-control (FOC).
+취미용으로 사용하는 장치와 구별되는 특징은 bus를 이용해서 differential signaling과 펌웨어 업그레이드를 지원합니다. 모든 motor controller는 상태를 피드백하고 FOC(field-oriented-control)을 구현합니다.
 
-## Upgrading Node Firmware
+## Node 펌웨어 업그레이드
 
-The PX4 middleware will automatically upgrade firmware on UAVCAN nodes if the matching firmware is supplied. The process and requirements are described on the [UAVCAN Firmware](uavcan-node-firmware.md) page.
+상황에 따라서 PX4 미들웨어는 자동으로 UAVCAN 노드에 있는 펌웨어를 업그레이드할 수 있습니다. 절차 및 요구사항은 [UAVCAN Firmware](uavcan-node-firmware.md)를 참고하세요.
 
-## Enumerating and Configuring Motor Controllers
+## Enumerating과 Motor Controllers 설정
 
-The ID and rotational direction of each motor controller can be assigned after installation in a simple setup routine: [UAVCAN Node Enumeration](uavcan-node-enumeration.md). The routine can be started by the user through QGroundControl.
+ID와 각 모터 제어기의 회전 방향은 셋업 절차를 마친 후에 할당할 수 있습니다.([UAVCAN Node Enumeration](uavcan-node-enumeration.md)) 사용자가 QGroundControl에서 이 절차대로 수행할 수 있습니다.
 
-## Useful links
+## 유용한 링크
 
-* [Homepage](http://uavcan.org)
-* [Specification](http://uavcan.org/Specification)
-* [Implementations and tutorials](http://uavcan.org/Implementations)
+* [홈페이지](http://uavcan.org)
+* [스펙](http://uavcan.org/Specification)
+* [구현 및 튜토리얼](http://uavcan.org/Implementations)
