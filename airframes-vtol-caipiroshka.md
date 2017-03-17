@@ -1,6 +1,6 @@
 # TBS Caipiroshka
 
-Caipiroshka VTOL는 TBS Caipirinha를 약간 수정한 것입니다.
+Caipiroshka VTOL는 TBS Caipirinha를 조금 수정하였습니다.
 
 {% youtube %}https://www.youtube.com/watch?v=acG0aTuf3f8&vq=hd720{% endyoutube %}
 
@@ -33,6 +33,7 @@ airframe의 무게중심(CG)와 가까운 중간에 autopilot을 장착합니다
 
 ### Motor 장착
 
+각 날깨쪽에 모터 마운트 하나를 부착합니다. 모터 축은 대략 elevon의 중심과 맞춰집니다.(사진 참조)
 Attach one motor mount on each wing side such that the motor axis will be roughly going through the center of the elevons (see picture).
 Print the motor mount (2 times) of which the link to the STL file was specified in the part list.
 In the upper picture the horizontal distance between the two motor mounts is 56cm. Once you have marked the correct position on the wing you can
