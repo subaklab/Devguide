@@ -1,14 +1,14 @@
 # Optical Flow Outdoors
 ----------------------------------------------------
 
-This page shows you how to set up the PX4Flow for position estimation and autonomous flight outdoors. Using a LIDAR device is not necessary, but LIDAR does improve performance.
+이 페이지에서는 position estimation과 아웃도어 자동비행을 위해 PX4Flow를 설정하는 방법에 대해서 알아봅니다. LIDAR 장치를 반드시 이용할 필요는 없지만 LIDAR를 이용하면 성능을 개선합니다.
 
-## Selecting LPE Estimator
+## LPE Estimator 선택
 --------------------------------------------------------
 
-The only estimator that is tested to work with optical flow based autonmous flight outdoors is, LPE.
+아웃도어 자동비행을 기반으로 optical flow와 동작을 테스트하는 유일한 estimator는 LPE입니다.
 
-Use the `SYS_MC_EST_GROUP = 1` parameter to select the estimator and then reboot.
+`SYS_MC_EST_GROUP = 1` parameter를 이용해서 estimator를 선택하고 난 후 reboot합니다.
 
 
 ## Hardware
@@ -16,37 +16,37 @@ Use the `SYS_MC_EST_GROUP = 1` parameter to select the estimator and then reboot
 
 ![](images/hardware/px4flow_offset.png)
 
-*Figure 1: Mounting Coordinate Frame (relevant to parameters below)*
+*그림 1: Mounting Coordinate Frame (아래 parameter 관련)*
 
 ![](images/hardware/px4flow.png)
 
-*Figure 2: PX4Flow optical flow sensor (camera and sonar)*
+*그림 2: PX4Flow optical flow 센서 (카메라와 sonar)*
 
-The PX4Flow has to point towards the ground and can be connected using the I2C port on the pixhawk. For best performance make sure the PX4Flow is attached at a good position and is not exposed to vibration. (preferably on the down side of the quad-rotor).
+PX4Flow는 지면을 향해야 합니다. pixhawk에 있는 I2C 포트를 사용해서 연결할 수 있습니다. 최고 성능을 위해서 PX4Flow가 올바른 위치에 부탁되어 있는지 확인하고 진동에 노출되지 않도록 합니다. (쿼드로터의 아래쪽을 선호)
 
-**Note: The default orientation is that the PX4Flow sonar side (+Y on flow) be pointed toward +X on the vehicle (forward). If it is not, you will need to set SENS_FLOW_ROT accordingly.**
+**Note: 기본 방향은 PX4Flow sonar 쪽(flow에서 +Y)이 비행체에서 +X(정면) 방향을 가리켜야 합니다. 만약 그렇지 않은 경우 SENS_FLOW_ROT을 적절하게 설정해야 합니다. **
 
 ![](images/hardware/lidarlite.png)
 
-*Figure 3: Lidar Lite*
+*그림 3: Lidar Lite*
 
-Several LIDAR options exist including the Lidar-Lite (not currently manufacutured) and the sf10a: [sf10a](http://www.lightware.co.za/shop/en/drone-altimeters/33-sf10a.html). For the connection of the LIDAR-Lite please refer to [this](https://pixhawk.org/peripherals/rangefinder?s[]=lidar) page. The sf10a can be connected using a serial cable.
-
+Lidar-Lite와 sf10a를 포함해서 여러 가지 LIDAR 옵션이 있습니다. [sf10a](http://www.lightware.co.za/shop/en/drone-altimeters/33-sf10a.html) LIDAR-Lite 연결에 관해서는 [this](https://pixhawk.org/peripherals/rangefinder?s[]=lidar)를 참고하세요. sf10a는 시리얼 케이블을 이용해서 연결할 수 있습니다.
 ![](images/hardware/flow_lidar_attached.jpg)
 
-*Figure: PX4Flow/ Lidar-Lite mounting DJI F450*
 
+*그림: PX4Flow/ Lidar-Lite를 DJI F450에 장착*
 ![](images/flow/flow_mounting_iris.png)
 
-*Figure: This Iris+ has a PX4Flow attached without a LIDAR, this works with the LPE estimator.*
+*그림: Iris+는 LIDAR 없이 PX4Flow가 부착되어 있으며 LPE estimator가 동작합니다.*
 
 ![](images/flow/flow_mounting_iris_2.png)
 
-*Figure: A weather-proof case was constructed for this flow unit. Foam is also used to surround the sonar to reduce prop noise read by the sonar and help protect the camera lens from crashes.*
+*그림: 여기 flow unit에 대해서 전천후로 사용할 수 있게 구성하였습니다. 프로펠러 노이즈를 sonar가 입력으로 받을 수 있어서 이를 줄이기 위해서 sonar 주변을 폼으로 감쌀 수 있고 충돌시 카메라 렌즈를 보호하는데 도움이 됩니다.*
 
 
 ### Focusing Camera
 
+좋은 optical flow 품질을 얻기 위해서는 PX4Flow에 있는 카메라를 원하는 비행 높이로 초점을 맞추는 것이 중요합니다. 카메라에 초점을 맞추기 위해서 object를 .
 In order to ensure good optical flow quality, it is important to focus the camera on the PX4Flow to the desired height of flight. To focus the camera, put an object with text on (e. g. a book) and plug in the PX4Flow into usb and run QGroundControl. Under the settings menu, select the PX4Flow and you should see a camera image. Focus the lens by unscrewing the set screw and loosening and tightening the lens to find where it is in focus.
 
 **Note: If you fly above 3m, the camera will be focused at infinity and won't need to be changed for higher flight.**
@@ -74,7 +74,7 @@ All the parameters can be changed in QGroundControl
 LPE is an Extended Kalman Filter based estimator for position and velocity states. It uses inertial navigation and is similar to the INAV estimator below but it dynamically calculates the Kalman gain based on the state covariance. It also is capable of detecting faults, which is beneficial for sensors like sonar which can return invalid reads over soft surfaces.
 
 ### Flight Video Outdoor
-{% youtube %}https://www.youtube.com/watch?v=Ttfq0-2K434{% endyoutube %} 
+{% youtube %}https://www.youtube.com/watch?v=Ttfq0-2K434{% endyoutube %}
 
 Below is a plot of the autonomous mission from the outdoor flight video above using optical flow. GPS is not used to estimate the vehicle position but is plotted for a ground truth comparison. The offset between the GPS and flow data is due to the initialization of the estimator from user error on where it was placed. The initial placement is assumed to be at LPE_LAT and LPE_LON (described below).
 
