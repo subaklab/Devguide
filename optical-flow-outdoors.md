@@ -46,76 +46,75 @@ Lidar-Lite와 sf10a를 포함해서 여러 가지 LIDAR 옵션이 있습니다. 
 
 ### Focusing Camera
 
-좋은 optical flow 품질을 얻기 위해서는 PX4Flow에 있는 카메라를 원하는 비행 높이로 초점을 맞추는 것이 중요합니다. 카메라에 초점을 맞추기 위해서 object를 .
-In order to ensure good optical flow quality, it is important to focus the camera on the PX4Flow to the desired height of flight. To focus the camera, put an object with text on (e. g. a book) and plug in the PX4Flow into usb and run QGroundControl. Under the settings menu, select the PX4Flow and you should see a camera image. Focus the lens by unscrewing the set screw and loosening and tightening the lens to find where it is in focus.
+좋은 optical flow 품질을 얻으려면, PX4Flow에 있는 카메라 초점을 원하는 비행 높이로 맞춰주는게 중요합니다. 카메라 초점을 맞추기 위해서 글자가 있는 대상을 두고 PX4Flow를 usb로 연결하고 QGroundControl를 실행합니다. setting 메뉴에서 PX4Flow을 선택하고 카메라 이미지를 살펴봅니다. 초점은 초점 나사를 조였다 풀었다하여 초점을 맞춰줍니다.
 
-**Note: If you fly above 3m, the camera will be focused at infinity and won't need to be changed for higher flight.**
+**주석: 만약 3m 이상 높이로 날면 카메라는 초점을 무한대가 되므로 더 높은 곳에 대해서 변경해주지 않아도 됩니다.**
 
 ![](images/flow/flow_focus_book.png)
 
-*Figure: Use a text book to focus the flow camera at the height you want to fly, typically 1-3 meters. Above 3 meters the camera should be focused at infinity and work for all higher altitudes.*
+*Figure: 원하는 비행 높이로 flow 카메라 초점을 맞추기 위해 책을 사용합니다. 일반적으로 1-3 미터입니다. 3미터가 넘으면 카메라는 초점이 무한대가 되므로 더 높은 고도에 대해서 동작합니다.*
 
 
 ![](images/flow/flow_focusing.png)
 
-*Figure: The px4flow interface in QGroundControl that can be used for focusing the camera*
+*Figure: QGroundControl에 있는 px4flow 인터페이스로 카메라 초점을 맞추기*
 
 ### Sensor Parameters
 
-All the parameters can be changed in QGroundControl
+모든 parameter를 QGroundControl에서 변경가능합니다.
 * SENS_EN_LL40LS
-	Set to 1 to enable lidar-lite distance measurements
+	1로 설정하면 lidar-lite 거리 측정을 사용 가능
 * SENS_EN_SF0X
-	Set to 1 to enable lightware distance measurements (e.g. sf02 and sf10a)
+	1로 설정하면 lightware 거리 측정을 사용 가능 (예로 sf02와 sf10a)
 
 ## Local Position Estimator (LPE)
 --------------------------------------------------------
 
-LPE is an Extended Kalman Filter based estimator for position and velocity states. It uses inertial navigation and is similar to the INAV estimator below but it dynamically calculates the Kalman gain based on the state covariance. It also is capable of detecting faults, which is beneficial for sensors like sonar which can return invalid reads over soft surfaces.
+LPE는 position과 velocity 상태에 대한 EKF 기반 estimator입니다. inertial navigation을 사용하며 INAV estimator와 유사하지만 상태 변화에 따라서 동적으로 Kalman gain을 계산합니다. 오류를 검출할 수 있어서 부드러운 표면에서 유효하지 않은 값을 읽는 sonar와 같은 센서에 적합합니다.
 
 ### Flight Video Outdoor
 {% youtube %}https://www.youtube.com/watch?v=Ttfq0-2K434{% endyoutube %}
 
-Below is a plot of the autonomous mission from the outdoor flight video above using optical flow. GPS is not used to estimate the vehicle position but is plotted for a ground truth comparison. The offset between the GPS and flow data is due to the initialization of the estimator from user error on where it was placed. The initial placement is assumed to be at LPE_LAT and LPE_LON (described below).
+아래 autonomous mission의 플롯은 optical flow를 이용한 위의 야외 비행에서 얻어왔습니다. GPS는 비행체 position을 estimate하는데 사용하지는 않지만 지면의 실제 이동을 비교하는데 사용합니다. GPS와 flow 데이터 사이의 offset은 처음 놓여진 위치에서 사용자 에러로부터 estimator 초기화하기 때문입니다. 초기 위치는 LPE_LAT와 LPE_LON로 가정합니다.(아래 설명)
 
 ![](images/lpe/lpe_flow_vs_gps.png)
 
-*Figure 4: LPE based autonomous mission with optical flow and sonar*
+*Figure 4: optical flow와 sonar로 LPE 기반의 autonomous mission*
 
 
 ### Parameters
 
-The local position estimator will automatically fuse LIDAR and optical flow data when the sensors are plugged in.
+센서들이 연결되어 있으면 local position estimator는 자동으로 LIDAR와 optical flow 데이터를 퓨징합니다.
 
-* LPE_FLOW_OFF_Z - This is the offset of the optical flow camera from the center of mass of the vehicle. This measures positive down and defaults to zero. This can be left zero for most typical configurations where the z offset is negligible.
-* LPE_FLW_XY - Flow standard deviation in meters.
-* LPW_FLW_QMIN - Minimum flow quality to accept measurement.
-* LPE_SNR_Z -Sonar standard deviation in meters.
-* LPE_SNR_OFF_Z - Offset of sonar sensor from center of mass.
-* LPE_LDR_Z - Lidar standard deviation in meters.
-* LPE_LDR_Z_OFF -Offset of lidar from center of mass.
-* LPE_GPS_ON - You won't be able to fly without GPS if LPE_GPS_ON is set to 1. You must disable it or it will wait for GPS altitude to initialize position. This is so that GPS altitude will take precedence over baro altitude if GPS is available.
+* LPE_FLOW_OFF_Z - 기체의 무게중신으로부터 optical flow 카메라의 offset. 기본값은 0이로 positive down을 측정. 대부분 설정에서 0으로 두는 이유는 z offset은 무시할 수준이기 때문.
+* LPE_FLW_XY - Flow 표준 편차 (in meters)
+* LPW_FLW_QMIN - 측정 수용을 위한 최소한의 품질
+* LPE_SNR_Z - sonar 표준편차 (in meters)
+* LPE_SNR_OFF_Z - 무게 중심으로부터의 sonar 센서의 offset
+* LPE_LDR_Z - Lidar 표준 편차 (in meters)
+* LPE_LDR_Z_OFF - 무게 중심으로부터의 lidar의 offset
+* LPE_GPS_ON - LPE_GPS_ON이 1로 설정되어 있는 경우 GPS없이는 비행이 불가능함. 설정을 비활성화시키던가 아니면 GPS altitude가 초기화되도록 기다려야함. GPS가 유효한 경우에는 baro altitude보다 GPS altitude가 우선순위가 높다는 뜻.
 
-**NOTE: LPE_GPS_ON must be set to 0 to enable flight without GPS **
+**주석: GPS없이 비행하려면 LPE_GPS_ON은 반드시 0으로 설정되어야 함 **
 
 ### Autonomous Flight Parameters
 
-*Tell the vehicle where it is in the world*
+*비행체에게 어디에 위치하고 있는지 알려주기*
 
-* LPE_LAT - The latitude associated with the (0,0) coordinate in the local frame.
-* LPE_LON - The longitude associated with the (0,0) coordinate in the local frame.
+* LPE_LAT - local frame에서 (0,0) 좌표에 관한 latitude
+* LPE_LON - local frame에서 (0,0) 좌표에 관한 longitude
 
-*Make the vehicle keep a low altitude and slow speed*
+*비행체가 낮은 고도와 느린 속도를 유지하게 만들기*
 
-* MPC_ALT_MODE - Set this to 1 to enable terrain follow
-* LPE_T_Z - This is the terrain process noise. If your environment is hilly, set it to 0.1, if it is a flat parking lot etc. set it to 0.01.
-* MPC_XY_VEL_MAX - Set this to 2 to limit leaning
-* MPC_XY_P - Decrease this to around 0.5 to limit leaning
-* MIS_TAKEOFF_ALT - Set this to 2 meters to allow low altitude takeoffs.
+* MPC_ALT_MODE - 이 값을 1로 설정하면 지형에 따르도록
+* LPE_T_Z - 이는 지형 처리 noise. 언덕이 많은 환경이라면 이를 0.1로 설정하고 평평한 주차장이라면 0.01로 설정
+* MPC_XY_VEL_MAX - 이 값을 2로 설정해서 기우는 것을 제한
+* MPC_XY_P - 대략 0.5로 줄여서 기우는 것을 제한
+* MIS_TAKEOFF_ALT - 이 값을 2 미터로 설정하여 낮은 고도로 이륙하도록 설정.
 
 *Waypoints*
 
-* Create waypoints with altitude 3 meters or below.
-* Do not create flight plans with extremely long distance, expect about 1m drift / 100 m of flight.
+* 고도를 3 미터나 그 이하로 waypoint를 생성
+* 아주 원거리 비행 plan은 생성하지 않는다. 대략 1m drift / 100 m 비행 정도로.
 
-**Note: Before your first auto flight, walk the vehicle manually through the flight with the flow sensor to make sure it will trace the path you expect.**
+**주석: 처음 자동 비행을 하기 전에 수동 비행을 통해 flow 센서가 원하는 경로를 제대로 추적하는지 확인해야 합니다.**
