@@ -96,7 +96,7 @@ LPE estimator로 outdoor automouse mission을 수행관련해서 (Optical Flow O
 * LPE_LDR_Z_OFF - 무게 중심으로부터의 lidar의 offset
 * LPE_GPS_ON - LPE_GPS_ON이 1로 설정되어 있는 경우 GPS없이는 비행이 불가능함. 설정을 비활성화시키던가 아니면 GPS altitude가 초기화되도록 기다려야함. GPS가 유효한 경우에는 baro altitude보다 GPS altitude가 우선순위가 높다는 뜻.
 
-**주석: GPS이 비행하려면 LPE_GPS_ON은 반드시 0으로 설정되어야 함 **
+**주석: GPS없이 비행하려면 LPE_GPS_ON은 반드시 0으로 설정되어야 함 **
 
 ## Inertial Navigation Estimator (INAV)
 --------------------------------------------------------
