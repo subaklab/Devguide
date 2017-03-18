@@ -73,7 +73,7 @@ sf10a는 시리얼케이블로 연결할 수 있습니다.
 ## Local Position Estimator (LPE)
 --------------------------------------------------------
 
-LPE는 position과 velocity 상태에 대한 EKF 기반 estimator입니다. inertial navigation릉ㄹ 사용하고 INAV estimator와 유사하지만 상태 변화에 따라서 동적으로 Kalman gain을 계산합니다. 오류를 검출할 수 있어서 부드러운 표면에서 유효하지 않은 값을 읽는 sonar와 같은 센서에 적합합니다.   
+LPE는 position과 velocity 상태에 대한 EKF 기반 estimator입니다. inertial navigation을 사용하며 INAV estimator와 유사하지만 상태 변화에 따라서 동적으로 Kalman gain을 계산합니다. 오류를 검출할 수 있어서 부드러운 표면에서 유효하지 않은 값을 읽는 sonar와 같은 센서에 적합합니다.   
 
 ### Flight Video Indoor
 {% youtube %}https://www.youtube.com/watch?v=CccoyyX-xtE{% endyoutube %}
