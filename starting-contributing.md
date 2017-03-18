@@ -1,12 +1,12 @@
 # Contributing
 
-핵심 개발팀과 커뮤니티의 연락처 정보를 아래에서 찾을 수 있습니다. PX4 프로젝트는 3개 브랜치 Git이 있는데 :
+핵심 개발팀과 커뮤니티의 연락처 정보를 아래에서 찾을 수 있습니다. PX4 프로젝트의 3개 브랜치 Git :
 
-  * [master](https://github.com/px4/firmware/tree/master) 기본으로 안정버전이 이니며 빠르게 개발 중인 버전
+  * [master](https://github.com/px4/firmware/tree/master) 기본적으로 불안정버전으로 빠르게 개발 중인 버전
   * [beta](https://github.com/px4/firmware/tree/beta) 철저히 테스트하고 있는 버전으로 비행 테스터를 위한 버전
   * [stable](https://github.com/px4/firmware/tree/stable) 최신 릴리즈 버전
 
-[rebase를 통한 진화과정](https://www.atlassian.com/git/tutorials/rewriting-history)을 보고 [Github flow](https://guides.github.com/introduction/flow/)을 피하고자 합니다. 그러나 글로벌 팀과 빠른 개발로 가끔은 merge하기 위해 다시 정렬해야하는 경우도 있습니다.
+[rebase를 통한 발전과정](https://www.atlassian.com/git/tutorials/rewriting-history)을 보고 [Github flow](https://guides.github.com/introduction/flow/)을 피하고자 합니다. 그러나 글로벌 팀과 빠른 개발로 가끔은 merge하기 위해 다시 정렬해야하는 경우도 있습니다.
 
 새로운 기능 개발에 기여하고자 한다면, [Github 계정만들고](https://help.github.com/articles/signing-up-for-a-new-github-account/) 저장소를 [fork](https://help.github.com/articles/fork-a-repo/)하고 [새로운 branch 만들고](https://help.github.com/articles/creating-and-deleting-branches-within-your-repository/) 변경 내용을 추가하고 마지막으로 [pull request 보내기](https://help.github.com/articles/using-pull-requests/)를 합니다. 변경 내용이 [continuous integration](https://en.wikipedia.org/wiki/Continuous_integration)을 통과하면 merge 됩니다.
 
