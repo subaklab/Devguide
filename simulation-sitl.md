@@ -40,13 +40,13 @@ pxh>
   * [posix-configs/SITL/init](https://github.com/PX4/Firmware/tree/master/posix-configs/SITL/init)폴더에 `rcS_SIM_AIRFRAME` 이름의 시작 스크립트가 있는데 기본은 `rcS_jmavsim_iris`입니다.
   * root 파일 시스템 (`/`)은 빌드 디렉토리 내부에 위치합니다. : `build_posix_sitl_default/src/firmware/posix/rootfs/`
 
-## 하늘로 날리기 Taking it to the Sky
+## 하늘로 날리기
 
 [jMAVSim](http://github.com/PX4/jMAVSim.git) 시뮬레이터의 3D 뷰 윈도우 :
 
 ![](images/sim/jmavsim.png)
 
-초기화를 마치고나면 시스템은 먼저 home position을 출력합니다. (`telem> home: 55.7533950, 37.6254270, -0.00`) 다음과 같이 입력하면 이륙시킵니다. :
+초기화를 마치고나면 시스템은 home position을 출력합니다. (`telem> home: 55.7533950, 37.6254270, -0.00`) 다음과 같이 입력하면 이륙시킵니다. :
 
 ```sh
 pxh> commander takeoff
@@ -70,6 +70,6 @@ make broadcast jmavsim
 
 > ** 정보 ** 빌드 시스템은 올바른 submodule인지를 모든 의존관계에 대해서 강제로 체크하는데 여기에는 시뮬레이터도 포함됩니다. 디렉토리에 있는 파일을 덮어쓰기로 변경하지는 않습니다. 하지만 이런 변경이 commit되면 새로운 commit hash로 submodule은 Firmware repo에 등록되어야 합니다. 이렇게 하기 위해서는 `git add Tools/jMAVSim` 과 변경을 commit합니다. 이렇게 하면 시뮬레이터의 GIT hash를 업데이트합니다.
 
-## ROS에 인터페이스
+## ROS와 인터페이스
 
 시뮬레이션으로 실제 비행체의 온보드와 같은 방식으로 [interfaced to ROS](simulation-ros-interface.md)이 가능합니다.

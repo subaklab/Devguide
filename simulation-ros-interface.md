@@ -1,10 +1,10 @@
-# Interfacing the Simulation to ROS
+# ROS와 시뮬레이션 인터페이스
 
-The simulated autopilot starts a second MAVLink interface on port 14557. Connecting MAVROS to this port allows to receive all data the vehicle would expose if in real flight.
+autopilot을 시뮬레이션을 시작하면 14557 포트로 2번째 MAVLink 인터페이스가 시작됩니다. MAVROS를 이 포트로 연결하면 실제 비행시에 비행체가 내보내는 모든 데이터를 받을 수 있습니다.
 
-## Launching MAVROS
+## MAVROS 실행하기
 
-If an interface to ROS is wanted, the already running secondary MAVLink instance can be connected to ROS via [mavros](ros-mavros-offboard.md). To connect to a specific IP (`fcu_url` is the IP / port of SITL), use a URL in this form:
+ROS와 인터페이스를 원하면, 이미 실행된 2번째 MAVLink 인스턴스가 [mavros](ros-mavros-offboard.md)를 통해 ROS에 연결할 수 있습니다. 특정 IP(`fcu_url` is the IP / port of SITL)로 연결하고자 한다면 아래와 같은 형태로 URL을 사용합니다. :
 
 <div class="host-code"></div>
 
@@ -12,7 +12,7 @@ If an interface to ROS is wanted, the already running secondary MAVLink instance
 roslaunch mavros px4.launch fcu_url:="udp://:14540@192.168.1.36:14557"
 ```
 
-To connect to localhost, use this URL:
+localhost에 연결하려면 다음 URL을 사용 :
 
 <div class="host-code"></div>
 
@@ -21,9 +21,9 @@ roslaunch mavros px4.launch fcu_url:="udp://:14540@127.0.0.1:14557"
 ```
 
 
-## Installing Gazebo for ROS
+## ROS를 위한 Gazebo 설치
 
-The Gazebo ROS SITL simulation is known to work with both Gazebo 6 and Gazebo 7, which can be installed via:
+Gazebo ROS SITL 시뮬레이션은 Gazebo 6와 Gazebo 7과 동작하므로 다음과 같이 설치합니다. :
 
 ```sh
 sudo apt-get install ros-$(ROS_DISTRO)-gazebo7-ros-pkgs    //Recommended
@@ -33,18 +33,18 @@ or
 sudo apt-get install ros-$(ROS_DISTRO)-gazebo6-ros-pkgs
 ```
 
-## Launching Gazebo with ROS wrappers
+## ROS wrapper와 함께 Gazebo 실행하기
 
-In case you would like to modify the Gazebo simulation to integrate sensors publishing directly to ROS topics e.g. the Gazebo ROS laser plugin, Gazebo must be launched with the appropriate ROS wrappers.
+ROS topic에 직접 publish하는 센서를 통합하기 위해서 Gazebo 시뮬레이션을 수정하고 싶은 경우(Gazebo ROS laser plugin), Gazebo는 반드시 적절한 ROS wrapper와 함께 실행해야만 합니다.
 
-There are ROS launch scripts available to run the simulation wrapped in ROS:
+ROS에서 시뮬레이션을 실행을 가능하게 하는 ROS launch 스크립트 :
+* [posix_sitl.launch](https://github.com/PX4/Firmware/blob/master/launch/posix_sitl.launch): plain SITL launch
 
-  * [posix_sitl.launch](https://github.com/PX4/Firmware/blob/master/launch/posix_sitl.launch): plain SITL launch
-  * [mavros_posix_sitl.launch](https://github.com/PX4/Firmware/blob/master/launch/mavros_posix_sitl.launch): SITL and MAVROS
+  * [mavros_posix_sitl.launch](https://github.com/PX4/Firmware/blob/master/launch/mavros_posix_sitl.launch): SITL과 MAVROS
 
-To run SITL wrapped in ROS the ROS environment needs to be updated, then launch as usual:
+ROS와 동작하는 SITL을 실행하기 위해서는 ROS 환경 업데이트를 하고 실행하는 것이 보통 :
 
-(optional): only source the catkin workspace if you compiled MAVROS or other ROS packages from source
+(옵션): MAVROS나 다른 ROS 패키지를 소스로 컴파일하는 경우 catkin workspace만 사용해야 함
 
 ```sh
 cd <Firmware_clone>
@@ -56,17 +56,17 @@ export ROS_PACKAGE_PATH=$ROS_PACKAGE_PATH:$(pwd)/Tools/sitl_gazebo
 roslaunch px4 posix_sitl.launch
 ```
 
-Include one of the above mentioned launch files in your own launch file to run your ROS application in the simulation.
+여러분이 가지고 있는 launch 파일에서 위에 언급한 launch 파일 중에 하나를 include해서 시뮬레이션에서 ROS application을 실행합니다.
 
-### What's happening behind the scenes
+### 실제로 일어나는 동작
 
-(or how to run it manually)
+(수동으로 실행하는 방법)
 
 ```sh
 no_sim=1 make posix_sitl_default gazebo
 ```
 
-This should start the simulator and the console will look like this
+이렇게 하면 시뮬레이터를 구동시키고 콘솔은 다음과 같이 :
 
 
 ```sh
@@ -92,14 +92,14 @@ INFO  Not using /dev/ttyACM0 for radio control input. Assuming joystick input vi
 INFO  Waiting for initial data on UDP. Please start the flight simulator to proceed..
 ```
 
-Now in a new terminal make sure you will be able to insert the Iris model through the Gazebo menus, to do this set your environment variables to include the appropriate `sitl_gazebo` folders.
+이제 새로운 터미널에서 Gazebo 메뉴를 통해 Iris model을 삽입할 수 있게 됩니다. 이렇게 하려면 적절한 `sitl_gazebo` 폴더에 포함하기 위해 환경변수를 설정합니다.
 
 ```sh
 cd <Firmware_clone>
 source Tools/setup_gazebo.bash $(pwd) $(pwd)/build_posix_sitl_default
 ```
 
-Now start Gazebo like you would when working with ROS and insert the Iris quadcopter model. Once the Iris is loaded it will automatically connect to the px4 app.
+이제 ROS와 동작을 원하는 경우 Gazebo를 구동시키고 Iris quadcopter model을 삽입합니다. 일단 Iris가 로드되면 자동으로 px4 app에 연결됩니다.
 
 ```sh
 roslaunch gazebo_ros empty_world.launch world_name:=$(pwd)/Tools/sitl_gazebo/worlds/iris.world
