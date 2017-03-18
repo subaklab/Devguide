@@ -1,17 +1,17 @@
-# MAVROS offboard control example
+# MAVROS offboard 제어 예제
 
 <aside class="caution">
-Offboard control is dangerous. If you are operating on a real vehicle be sure to have a way of gaining back manual control in case something goes wrong.
+Offboard 제어는 위험합니다. 실제 비행체에서 동작시키는 경우라면 문제가 발생했을때 수동 제어로 돌릴 수 있는 방법을 가지고 있어야 합니다.
 </aside>
 
-The following tutorial will run through the basics of offboard control through mavros as applied to an Iris quadcopter simulated in Gazebo. At the end of the tutorial, you should see the same behaviour as in the video below, i.e. a slow takeoff to an altitude of 2 meters.
+다음 튜토리얼은 mavros를 통해 offboard 제어의 기본적은 내용들을 Gazebo에서 시뮬레이트한 Iris 쿼드콥터에 적용합니다. 튜토리얼의 마지막에 아래 비디오에서와 같이 동일하게 동작하는 것을 볼 수 있습니다.(2m 고도까지 천천히 이륙)
 
 <video width="100%" autoplay="true" controls="true">
 	<source src="images/sim/gazebo_offboard.webm" type="video/webm">
 </video>
 
 ## Code
-Create the offb_node.cpp file in your ros package and paste the following inside it:
+ros 패키지에서 offb_node.cpp 파일을 생성하고 다음 내용을 붙여넣기 합니다. :
 ```C++
 /**
  * @file offb_node.cpp
@@ -131,7 +131,7 @@ We instantiate a publisher to publish the commanded local position and the appro
 //the setpoint publishing rate MUST be faster than 2Hz
 ros::Rate rate(20.0);
 ```
-The px4 flight stack has a timeout of 500ms between two offboard commands. If this timeout is exceeded, the commander will fall back to the last mode the vehicle was in before entering offboard mode. This is why the publishing rate **must** be faster than 2 Hz to also account for possible latencies. This is also the same reason why it is recommended to enter offboard mode from POSCTL mode, this way if the vehicle drops out of offboard mode it will stop in its tracks and hover.
+px4 flight stack은 2개 offboard 명령사이에 500ms 타임아웃이 있습니다. 이 타임아웃 시간을 초과하게 되면, commander는 offboard 모드로 들어오기 전의 모드로 돌아가게 됩니다. 이것이 publish rate를 반드시 2Hz보다 빠르게 해야하는 이유입니다. 이때 발생할 수 있는 지원시간도 고려해야 합니다. POSCTL 모드에서 offboard 모드로 들어가야하는 이유도 offboard 모드에서 빠져나오게 되는 경우 비행체가 갑자기 움직이게 되는 것을 방지할 수 있습니다.
 
 ```C++
 // wait for FCU connection
@@ -140,14 +140,14 @@ while(ros::ok() && current_state.connected){
     rate.sleep();
 }
 ```
-Before publishing anything, we wait for the connection to be established between mavros and the autopilot. This loop should exit as soon as a heartbeat message is received.
+publish하기 전에 mavros와 autopilot이 연결되기를 기다려야 합니다. 이 loop은 hartbeat 메시지를 받자마자 빠져나오게 됩니다.
 ```C++
 geometry_msgs::PoseStamped pose;
 pose.pose.position.x = 0;
 pose.pose.position.y = 0;
 pose.pose.position.z = 2;
 ```
-Even though the px4 flight stack operates in the aerospace NED coordinate frame, mavros translates these coordinates to the standard ENU frame and vice-versa. This is why we set z to positive 2.
+px4 flight stack이 aerospace NED 좌표 프레임에서 동작하지만 mavros는 이 좌표를 표준 ENU 프레임으로 변환하며 역반환도 일어납니다. 이것이 z에 양수 2를 설정하는 이유입니다.
 ```C++
 //send a few setpoints before starting
 for(int i = 100; ros::ok() && i > 0; --i){
@@ -156,12 +156,12 @@ for(int i = 100; ros::ok() && i > 0; --i){
     rate.sleep();
 }
 ```
-Before entering offboard mode, you must have already started streaming setpoints otherwise the mode switch will be rejected. Here, 100 was chosen as an arbitrary amount.
+offboard 모드에 진입하기 전에, 이미 streaming setpoint을 구동시켜놨어야 하며 그렇지 않은 경우 모드 스위치는 동작은 거부됩니다. 여기서 100은 임의의 숫자를 선택한 것입니다.
 ```C++
 mavros_msgs::SetMode offb_set_mode;
 offb_set_mode.request.custom_mode = "OFFBOARD";
 ```
-We set the custom mode to `OFFBOARD`. A list of [supported modes](http://wiki.ros.org/mavros/CustomModes#PX4_native_flight_stack) is available for reference.
+`OFFBOARD`로 custom 모드를 설정합니다. [지원하는 modes](http://wiki.ros.org/mavros/CustomModes#PX4_native_flight_stack)의 목록을 참고하세요.
 ```C++
 mavros_msgs::CommandBool arm_cmd;
 arm_cmd.request.value = true;
@@ -193,8 +193,8 @@ while(ros::ok()){
 		rate.sleep();
 }
 ```
-The rest of the code is pretty self explanatory. We attempt to switch to offboard mode after which we arm the quad to allow it to fly. We space out the service calls by 5 seconds so as to not flood the autopilot with the requests. In the same loop we continue sending the requested pose at the appropriate rate.
+코드의 나머지 부분은 이해하기 쉽습니다. 비행을 하기 위해서 쿼드에 arm을 하고나서, offboard mode로 변환합니다. autopilot에 request를 몰리지 않도록 하기 위해서 5초마다 서비스 호출을 비우게 됩니다. 동일한 loop에서 계속해서 적절한 rate로 pose 요청을 보내게 됩니다.
 
 <aside class="tip">
-This code has been simplified to the bare minimum for illustration purposes. In larger systems, it is often useful to create a new thread which will be in charge of periodically publishing the setpoint.
+여기서 보는 코드는 예제로 보여주는 목적으로 단순화 시켰습니다. 규모가 큰 시스템에서 주기적으로 setpoint을 publish하는 역할을 수행하는 thread를 생성하는 것이 유용합니다.
 </aside>

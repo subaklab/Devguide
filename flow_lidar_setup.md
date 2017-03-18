@@ -16,62 +16,64 @@
 
 ![](images/hardware/px4flow_offset.png)
 
-*Figure 1: Mounting Coordinate Frame (relevant to parameters below)*
+*Figure 1: Mounting Coordinate Frame (아래 parameter에 관련)*
 
 ![](images/hardware/px4flow.png)
 
-*Figure 2: PX4Flow optical flow sensor (camera and sonar)*
+*Figure 2: PX4Flow optical flow sensor (카메라와 sonar)*
 
-The PX4Flow has to point towards the ground and can be connected using the I2C port on the pixhawk. For best performance make sure the PX4Flow is attached at a good position and is not exposed to vibration. (preferably on the down side of the quad-rotor).
+PX4Flow는 지면을 향하도록 해야하고 pixhawk의 I2C 포트를 이용해서 연결합니다. PX4Flow가 최상의 성능을 내기 위해서는 적당한 위치에 부착해야하고 진동에 노출되지 않도록 해야합니다.(쿼드로터의 아랫면을 선호)
 
-**Note: The default orientation is that the PX4Flow sonar side (+Y on flow) be pointed toward +X on the vehicle (forward). If it is not, you will need to set SENS_FLOW_ROT accordingly.**
+**주석: 기본 방향은 PX4Flow sonar 면이(flow에서 +Y) 비행체의 +X를(정면) 향하는 것입니다. 만약 그렇지 않은 경우 SENS_FLOW_ROT을 알맞게 설정해줘야 합니다.**
 
 ![](images/hardware/lidarlite.png)
 
 *Figure 3: Lidar Lite*
 
-Several LIDAR options exist including the Lidar-Lite (not currently manufacutured) and the sf10a: [sf10a](http://www.lightware.co.za/shop/en/drone-altimeters/33-sf10a.html). For the connection of the LIDAR-Lite please refer to [this](https://pixhawk.org/peripherals/rangefinder?s[]=lidar) page. The sf10a can be connected using a serial cable.
+Lidar-Lite와 sf10a를 포함해서 다양한 LIDAR 선택이 가능합니다. : [sf10a](http://www.lightware.co.za/shop/en/drone-altimeters/33-sf10a.html). [LIDAR-Lite 연결](https://pixhawk.org/peripherals/rangefinder?s[]=lidar).
+sf10a는 시리얼케이블로 연결할 수 있습니다.
+
 
 ![](images/hardware/flow_lidar_attached.jpg)
 
-*Figure: PX4Flow/ Lidar-Lite mounting DJI F450*
+*Figure: PX4Flow/ Lidar-Lite를 DJI F450에 장착*
 
 ![](images/flow/flow_mounting_iris.png)
 
-*Figure: This Iris+ has a PX4Flow attached without a LIDAR, this works with the LPE estimator.*
+*Figure: 이 Iris+는 LIDAR 없이 PX4Flow가 장착. LPE estimator로 동작*
 
 ![](images/flow/flow_mounting_iris_2.png)
 
-*Figure: A weather-proof case was constructed for this flow unit. Foam is also used to surround the sonar to reduce prop noise read by the sonar and help protect the camera lens from crashes.*
+*Figure: flow unit을 위해 바람을 막아주는 케이스 사용. 폼으로 sonar 주면을 감싸줘서 프로펠러 노이즈를 감소시키고 충돌시 카메라를 보호*
 
 
 ### Focusing Camera
 
-In order to ensure good optical flow quality, it is important to focus the camera on the PX4Flow to the desired height of flight. To focus the camera, put an object with text on (e. g. a book) and plug in the PX4Flow into usb and run QGroundControl. Under the settings menu, select the PX4Flow and you should see a camera image. Focus the lens by unscrewing the set screw and loosening and tightening the lens to find where it is in focus.
+좋은 optical flow 품질을 얻으려면, PX4Flow에 있는 카메라 초점을 원하는 비행 높이로 맞춰주는게 중요합니다. 카메라 초점을 맞추기 위해서 글자가 있는 대상을 두고 PX4Flow를 usb로 연결하고 QGroundControl를 실행합니다. setting 메뉴에서 PX4Flow을 선택하고 카메라 이미지를 살펴봅니다. 초점은 초점 나사를 조였다 풀었다하여 초점을 맞춰줍니다.
 
-**Note: If you fly above 3m, the camera will be focused at infinity and won't need to be changed for higher flight.**
+**주석: 만약 3m 이상 높이로 날면 카메라는 초점을 무한대가 되므로 더 높은 곳에 대해서 변경해주지 않아도 됩니다.**
 
 ![](images/flow/flow_focus_book.png)
 
-*Figure: Use a text book to focus the flow camera at the height you want to fly, typically 1-3 meters. Above 3 meters the camera should be focused at infinity and work for all higher altitudes.*
+*Figure: 원하는 비행 높이로 flow 카메라 초점을 맞추기 위해 책을 사용합니다. 일반적으로 1-3 미터입니다. 3미터가 넘으면 카메라는 초점이 무한대가 되므로 더 높은 고도에 대해서 동작합니다.*
 
 
 ![](images/flow/flow_focusing.png)
 
-*Figure: The px4flow interface in QGroundControl that can be used for focusing the camera*
+*Figure: QGroundControl에 있는 px4flow 인터페이스로 카메라 초점을 맞추기*
 
 ### Sensor Parameters
 
-All the parameters can be changed in QGroundControl
+모든 parameter를 QGroundControl에서 변경가능합니다.
 * SENS_EN_LL40LS
-	Set to 1 to enable lidar-lite distance measurements
+	1로 설정하면 lidar-lite 거리 측정을 사용 가능
 * SENS_EN_SF0X
-	Set to 1 to enable lightware distance measurements (e.g. sf02 and sf10a)
+	1로 설정하면 lightware 거리 측정을 사용 가능 (예로 sf02와 sf10a)
 
 ## Local Position Estimator (LPE)
 --------------------------------------------------------
 
-LPE is an Extended Kalman Filter based estimator for position and velocity states. It uses inertial navigation and is similar to the INAV estimator below but it dynamically calculates the Kalman gain based on the state covariance. It also is capable of detecting faults, which is beneficial for sensors like sonar which can return invalid reads over soft surfaces.
+LPE는 position과 velocity 상태에 대한 EKF 기반 estimator입니다. inertial navigation릉ㄹ 사용하고 INAV estimator와 유사하지만 상태 변화에 따라서 동적으로 Kalman gain을 계산합니다. 오류를 검출할 수 있어서 부드러운 표면에서 유효하지 않은 값을 읽는 sonar와 같은 센서에 적합합니다.   
 
 ### Flight Video Indoor
 {% youtube %}https://www.youtube.com/watch?v=CccoyyX-xtE{% endyoutube %}
@@ -79,27 +81,27 @@ LPE is an Extended Kalman Filter based estimator for position and velocity state
 ### Flight Video Outdoor
 {% youtube %}https://www.youtube.com/watch?v=Ttfq0-2K434{% endyoutube %}
 
-For outdoor autonmous missions with LPE estimator, see tutorial on (Optical Flow Outdoors)[./optical-flow-outdoors.md]
+LPE estimator로 outdoor automouse mission을 수행관련해서 (Optical Flow Outdoors)[./optical-flow-outdoors.md] 튜토리얼을 참고합니다.
 
 ### Parameters
 
-The local position estimator will automatically fuse LIDAR and optical flow data when the sensors are plugged in.
+센서들이 연결되어 있으면 local position estimator는 자동으로 LIDAR와 optical flow 데이터를 퓨징합니다.
 
-* LPE_FLOW_OFF_Z - This is the offset of the optical flow camera from the center of mass of the vehicle. This measures positive down and defaults to zero. This can be left zero for most typical configurations where the z offset is negligible.
-* LPE_FLW_XY - Flow standard deviation in meters.
-* LPW_FLW_QMIN - Minimum flow quality to accept measurement.
-* LPE_SNR_Z -Sonar standard deviation in meters.
-* LPE_SNR_OFF_Z - Offset of sonar sensor from center of mass.
-* LPE_LDR_Z - Lidar standard deviation in meters.
-* LPE_LDR_Z_OFF -Offset of lidar from center of mass.
-* LPE_GPS_ON - You won't be able to fly without GPS if LPE_GPS_ON is set to 1. You must disable it or it will wait for GPS altitude to initialize position. This is so that GPS altitude will take precedence over baro altitude if GPS is available.
+* LPE_FLOW_OFF_Z - 기체의 무게중신으로부터 optical flow 카메라의 offset. 기본값은 0이로 positive down을 측정. 대부분 설정에서 0으로 두는 이유는 z offset은 무시할 수준이기 때문.
+* LPE_FLW_XY - Flow 표준 편차 (in meters)
+* LPW_FLW_QMIN - 측정 수용을 위한 최소한의 품질
+* LPE_SNR_Z - sonar 표준편차 (in meters)
+* LPE_SNR_OFF_Z - 무게 중심으로부터의 sonar 센서의 offset
+* LPE_LDR_Z - Lidar 표준 편차 (in meters)
+* LPE_LDR_Z_OFF - 무게 중심으로부터의 lidar의 offset
+* LPE_GPS_ON - LPE_GPS_ON이 1로 설정되어 있는 경우 GPS없이는 비행이 불가능함. 설정을 비활성화시키던가 아니면 GPS altitude가 초기화되도록 기다려야함. GPS가 유효한 경우에는 baro altitude보다 GPS altitude가 우선순위가 높다는 뜻.
 
-**NOTE: LPE_GPS_ON must be set to 0 to enable flight without GPS **
+**주석: GPS이 비행하려면 LPE_GPS_ON은 반드시 0으로 설정되어야 함 **
 
 ## Inertial Navigation Estimator (INAV)
 --------------------------------------------------------
 
-INAV has a fixed gain matrix for correction and can be viewed as a steady state Kalman filter. It has the lowest computational cost of all position estimators.
+INAV는 correction을 위해 고정 gain matrix를 가지고 있어서 고정 상태 Kalman filter로 볼 수 있습니다. 전체 position estimator 중에서 계산량이 가장 적습니다.
 
 
 ### Flight Video Indoor
@@ -111,20 +113,20 @@ INAV has a fixed gain matrix for correction and can be viewed as a steady state 
 
 ### Parameters
 * INAV_LIDAR_EST
-	Set to 1 to enable altitude estimation based on distance measurements
+	1로 설정하면 측정 거리 기반으로 altitude estimation을 활성화
 * INAV_FLOW_DIST_X and INAV_FLOW_DIST_Y
-	These two values (in meters) are used for yaw compensation.
-	The offset has to be measured according to Figure 1 above.
-	In the above example the offset of the PX4Flow (red dot) would have a negative X offset and a negative Y offset.
+	이 2개 값(in meters)은 yaw compensation을 위해 사용.
+	offset은 위 Figure 1과 같이 측정해야만 함.
+	위 예제에서 PX4Flow의 offset은(붉은 점) 음수의 X offset과 음수의 Y offset을 가짐.
 * INAV_LIDAR_OFF
-	Set a calibration offset for the lidar-lite in meters. The value will be added to the measured distance.
+	lidar-lite(in meters)에 대해서 칼리브레이션 offset을 설정. 그 값을 측정한 거리에 더해준다.
 
 
-### Advanced Parameters
+### 고급 Parameters
 
-For advanced usage/development the following parameters can be changed as well. Do NOT change them if you do not know what you are doing!
+고급 사용/개발을 위해서 다음 parameter도 변경할 수 있어야 합니다. 관련된 내용을 잘 모른다면 변경하지 않습니다!
 
 * INAV_FLOW_W
-	Sets the weight for the flow estimation/update
+	flow의 estimation/update에 대한 weight를 설정
 * INAV_LIDAR_ERR
-	Sets the threshold for altitude estimation/update in meters. If the correction term is bigger than this value, it will not be used for the update.
+	altitude estimation/update(in meter)에 대한 threshold를 설정. 만약 correction term이 이 값보다 크다면, 업데이트에 사용되지 않음.

@@ -151,43 +151,30 @@ simple mixer 정의는 다음과 같이 시작됩니다 :
 	M: <control count>
 	O: <-ve scale> <+ve scale> <offset> <lower limit> <upper limit>
 
-If &lt;control count&gt; is zero, the sum is effectively zero and the mixer will
-output a fixed value that is &lt;offset&gt; constrained by &lt;lower limit&gt;
-and &lt;upper limit&gt;.
+&lt;control count&gt;가 0이면 sum은 실질적으로 0이 되고 mixer는 &lt;lower limit&gt;
+와 &lt;upper limit&gt;에 제한된 &lt;offset&gt; 을 고정값으로 출력합니다.
 
-The second line defines the output scaler with scaler parameters as discussed
-above. Whilst the calculations are performed as floating-point operations, the
-values stored in the definition file are scaled by a factor of 10000; i.e. an
-offset of -0.5 is encoded as -5000.
+2번째 라인은 위에서 언급한 scaler parameter를 가지는 출력 scaler를 정의합니다. 소수점 연락처럼 계산을 수행하는 동안, 정의 파일에 저장된 값이 10000 인수로 스케일링합니다. 예로 -0.5의 offset은 -5000으로 인코딩됩니다.
 
-The definition continues with &lt;control count&gt; entries describing the control
-inputs and their scaling, in the form:
+이 정의는 제어 입력과 스케일링을 설명하기 위한 &lt;control count&gt; 엔트리로 연속되며 다음과 같은 형태 :
 
 	S: <group> <index> <-ve scale> <+ve scale> <offset> <lower limit> <upper limit>
 
-The &lt;group&gt; value identifies the control group from which the scaler will read,
-and the &lt;index&gt; value an offset within that group.  These values are specific to
-the device reading the mixer definition.
+&lt;group&gt; 값은 scaler가 읽어들이는 제어 그룹을 식별하고 &lt;index&gt; 값은 해당 그룹내에 offset 입니다. 이 값들은 장치마다 mixer 정의에서 읽게 됩니다.
 
-When used to mix vehicle controls, mixer group zero is the vehicle attitude
-control group, and index values zero through three are normally roll, pitch,
-yaw and thrust respectively.
+비행체 제어가 혼합되어 사용되는 경우, mixer group zero가 비행체 attitude control group이 되고 index값 0로 각각은 3개의 일반 roll, pitch, yaw와 thrust입니다.
 
-The remaining fields on the line configure the control scaler with parameters as
-discussed above. Whilst the calculations are performed as floating-point
-operations, the values stored in the definition file are scaled by a factor of
-10000; i.e. an offset of -0.5 is encoded as -5000.
+위에서 언급한 바와 같이 해당 라인에 설정에 있는 나머지 필드는 parameter를 가지는 control scaler를 설정합니다. 소수점 연락처럼 계산을 수행하는 동안, 정의 파일에 저장된 값이 10000 인수로 스케일링합니다. 예로 -0.5의 offset은 -5000으로 인코딩됩니다.
 
 #### Multirotor Mixer ####
 
-The multirotor mixer combines four control inputs (roll, pitch, yaw, thrust)
-into a set of actuator outputs intended to drive motor speed controllers.
+Multirotor mixer는 제어 입력(roll, pitch, yaw, thrust)을 모터 스피드 제어를 목적으로 actuator 출력 집합으로 결합시킨다.
 
-The mixer definition is a single line of the form:
+mixer 정의는 한 줄로 :
 
 	R: <geometry> <roll scale> <pitch scale> <yaw scale> <deadband>
 
-The supported geometries include:
+지원하는 지오메트리를 포함 :
 
  * 4x - quadrotor in X configuration
  * 4+ - quadrotor in + configuration
@@ -196,14 +183,8 @@ The supported geometries include:
  * 8x - octocopter in X configuration
  * 8+ - octocopter in + configuration
 
-Each of the roll, pitch and yaw scale values determine scaling of the roll,
-pitch and yaw controls relative to the thrust control.  Whilst the calculations
-are performed as floating-point operations, the values stored in the definition
-file are scaled by a factor of 10000; i.e. an factor of 0.5 is encoded as 5000.
+각각의 roll, pitch, yaw scale 값은 thrust 제어에 관해 roll, pitch, yaw 제어의 스케일링을 결정합니다. 소수점 연락처럼 계산을 수행하는 동안, 정의 파일에 저장된 값이 10000 인수로 스케일링합니다. 예로 -0.5의 offset은 -5000으로 인코딩됩니다.
 
-Roll, pitch and yaw inputs are expected to range from -1.0 to 1.0, whilst the
-thrust input ranges from 0.0 to 1.0.  Output for each actuator is in the
-range -1.0 to 1.0.
+roll, pitch, yaw 입력은 -1.0에서 1.0사이의 범위를 갖습니다. 반면에 thrust 입력은 0.0에서 1.0의 범위를 갖습니다. 각 actuator의 출력은 -1.0에서 1.0 범위를 갖습니다.
 
-In the case where an actuator saturates, all actuator values are rescaled so that
-the saturating actuator is limited to 1.0.
+하나의 actuator가 포화상태가 되면, 포화상태인 actuator가 1.0으로 제한되기 때문에 다른 모든 actuator 값은 rescale합니다.
