@@ -1,12 +1,12 @@
 # Linux에서 개발환경
 
-Linux 배포판 중에 Debian / Ubuntu LTS를 표준으로 정했습니다. 하지만 Cent OS나 Arch Linux도 사용 가능합니다. 참고 : [boutique distribution instructions](starting-installing-linux-boutique.md)
+Linux 배포판 중에 Debian / Ubuntu LTS가 기준입니다. 하지만 Cent OS나 Arch Linux도 사용 가능합니다. 참고 : [boutique distribution instructions](starting-installing-linux-boutique.md)
 
 ## Permission 설정
 
 > **경고** 'sudo'를 이용해서 permission 문제를 해결하지 마세요. 이로 인해 더 많은 permission 문제가 생길수도 있고 시스템을 다시 설치해야할수도 있습니다.
 
-user는 "dialout" 그룹의 일원이 되어야 합니다. :
+user는 "dialout" 그룹에 속해야 합니다. :
 
 ```sh
 sudo usermod -a -G dialout $USER
@@ -16,7 +16,7 @@ sudo usermod -a -G dialout $USER
 
 ## 설치
 
-패키지 목록을 업데이트하고 모든 PX4 빌드 타겟을 위해 필요한 의존하는 패키지를 설치합니다. PX4가 지원하는 4개 계열 :
+패키지 목록을 업데이트하고 모든 PX4 빌드 타겟을 위해 필요한 의존 패키지를 설치합니다. PX4가 지원하는 4가지 계열 :
 
 * NuttX 기반 하드웨어: [Pixhawk](hardware-pixhawk.md), [Pixfalcon](hardware-pixfalcon.md),
   [Pixracer](hardware-pixracer.md), [Crazyflie](hardware-crazyflie2.md),
@@ -25,7 +25,7 @@ sudo usermod -a -G dialout $USER
 * Linux 기반 하드웨어: [Raspberry Pi 2/3](hardware-rpi.md), Parrot Bebop
 * 호스트 simulation: [jMAVSim SITL](simulation-sitl.md)와 [Gazebo SITL](simulation-gazebo.md)
 
-> **정보** Make보다 빌드를 빠르게 하려면 [Ninja Build System](http://dev.px4.io/starting-installing-linux-boutique.html#ninja-build-system)을 설치합니다. 설치되어 있다면 자동으로 선택해서 빌드합니다.
+> **정보** Make보다 빠르게 빌드하기 위해 [Ninja Build System](http://dev.px4.io/starting-installing-linux-boutique.html#ninja-build-system)을 설치합니다. 이미 설치되어 있다면 자동으로 선택해서 빌드하게 됩니다.
 
 ```sh
 sudo add-apt-repository ppa:george-edison55/cmake-3.x -y
@@ -38,13 +38,13 @@ sudo apt-get install ant protobuf-compiler libeigen3-dev libopencv-dev openjdk-8
 
 ### NuttX 기반 하드웨어
 
-Ubuntu에 기본으로 serial modem manager가 설치되어 있어서 로보틱스 관련해서 시리얼 포트나 \( USB 시리얼\) 을 사용하는 경우 방해가 됩니다. 따라서 효과적으로 삭제하는 방법은 :
+Ubuntu에 기본으로 serial modem manager가 설치되어 있어서 로보틱스 관련해서 시리얼 포트나 \( USB 시리얼\) 을 사용하는 경우 방해가 됩니다. 효과적으로 삭제하는 방법은 :
 
 ```sh
 sudo apt-get remove modemmanager
 ```
 
-패키지 목록을 업데이트하고 다음과 같이 의존하는 패키지를 설치합니다. 특정 버전이 필요한 패키지는 해당 버전의 패키지를 설치해야만 합니다.
+패키지 목록을 업데이트하고 의존 패키지를 설치합니다. 특정 버전이 필요한 패키지는 해당 버전의 패키지를 설치해야만 합니다.
 
 ```sh
 sudo apt-get install python-serial openocd \
@@ -53,14 +53,14 @@ sudo apt-get install python-serial openocd \
     python-empy  -y
 ```
 
-arm-none-eabi 툴체인을 추가하기 전에 이전에 설치된 것을 제거합니다.
+arm-none-eabi 툴체인을 추가하기 전에 이전에 설치된 것을 제거되었는지 확인합니다.
 
 ```sh
 sudo apt-get remove gcc-arm-none-eabi gdb-arm-none-eabi binutils-arm-none-eabi gcc-arm-embedded
 sudo add-apt-repository --remove ppa:team-gcc-arm-embedded/ppa
 ```
 
-4.9나 5.4 버전의 arm-none-eabi 툴체인을 설치할때 [toolchain installation instructions](http://dev.px4.io/starting-installing-linux-boutique.html#toolchain-installation)을 참고합니다.
+4.9나 5.4 버전의 arm-none-eabi 툴체인을 수동으로 설치할때 [toolchain installation instructions](http://dev.px4.io/starting-installing-linux-boutique.html#toolchain-installation)을 참고합니다.
 
 ### Snapdragon Flight
 
@@ -74,11 +74,11 @@ sudo apt-get install android-tools-adb android-tools-fastboot fakechroot fakeroo
 git clone https://github.com/ATLFlight/cross_toolchain.git
 ```
 
-QDN에서 Hexagon SDK 3.0 가져오기 : [https://developer.qualcomm.com/download/hexagon/hexagon-sdk-v3-linux.bin](https://developer.qualcomm.com/download/hexagon/hexagon-sdk-v3-linux.bin)
+QDN에서 Hexagon SDK 3.0 다운받기 : [https://developer.qualcomm.com/download/hexagon/hexagon-sdk-v3-linux.bin](https://developer.qualcomm.com/download/hexagon/hexagon-sdk-v3-linux.bin)
 
 QDN 로그인이 필요합니다. 계정이 없다면 우선 등록해야 합니다.
 
-이제 cross 툴체인 폴더로 옮깁니다. :
+이제 다운받은 파일을 cross 툴체인 폴더로 옮깁니다. :
 
 ```sh
 mv ~/Downloads/hexagon-sdk-v3-linux.bin cross_toolchain/downloads
@@ -92,7 +92,7 @@ cd cross_toolchain
 cd ..
 ```
 
-다음은 환경설정을 위한 방법을 설명합니다. 기본 설치를 하고자 한다면 다음 환경설정을 따라서 실행하면 됩니다. 다시 실행하더라도 빠진 컴포넌트만 설치됩니다.
+개발 환경설정은 지시를 따라 진행합니다. 모든 기본 설치를 수락하면 환경설정을 위한 단계를 언제든 다시 실행할 수 있습니다. 다시 실행하더라도 빠진 컴포넌트만 설치합니다.
 
 도구와 SDK는 "$HOME/Qualcomm/..."에 설치됩니다. ~/.bashrc 에 다음을 추가합니다 :
 
@@ -110,7 +110,7 @@ source ~/.bashrc
 
 #### sysroot 설치
 
-Snapdragon Flight AP에 대해 application 개발시에 cross 컴파일에 필요한 라이브러리와 헤더 파일을 제공하는데 필요한 것이 바로 sysroot입니다.
+Snapdragon Flight 어플리케이션 프로세서 환경에서 application 개발시에 cross 컴파일에 필요한 라이브러리와 헤더 파일을 제공하기 위해서 sysroot가 필요합니다.
 
 qrlSDK sysroot은 카메라, GPU 등에 필요한 라이브러리와 헤더 파일을 제공합니다.
 
@@ -153,7 +153,7 @@ ${HEXAGON_SDK_ROOT}/tools/debug/mini-dm/Linux_Debug/mini-dm
 
 ### Raspberry Pi 하드웨어
 
-Raspberry Pi 하드웨어를 사용하는 개발자는 RPi Linux 툴체인을 아래 링크에서 다운받습니다. 설치 스크립트를 이용하면 자동으로 cross 컴파일러 툴체인이 설치됩니다. 직접 컴파일을 목적으로 _native_ Raspberry Pi 툴체인을 사용하고자 한다면  [here](http://dev.px4.io/hardware-pi2.html#native-builds-optional)를 참고하세요.
+Raspberry Pi 하드웨어를 사용하는 개발자는 RPi Linux 툴체인을 아래 링크에서 다운받습니다. 설치 스크립트를 이용하면 자동으로 cross 컴파일러 툴체인이 설치됩니다. Pi상에서 직접 컴파일을 위한 용도로 _native_ Raspberry Pi 툴체인을 사용하고자 한다면  [여기](http://dev.px4.io/hardware-pi2.html#native-builds-optional)를 참고하세요.
 
 ```sh
 git clone https://github.com/pixhawk/rpi_toolchain.git
@@ -161,7 +161,7 @@ cd rpi_toolchain
 ./install_cross.sh
 ```
 
-툴체인 설치를 위해 패스워드를 입력이 필요합니다.
+툴체인 설치를 위해 패스워드 입력이 필요합니다.
 
 `/opt/rpi_toolchain`의 기본 위치에 툴체인을 설치하지 않으려면 설치 스크립트에 다른 경로를 전달할 수 있습니다. `./install_cross.sh <PATH>`를 실행합니다. 인스톨러는 자동으로 환경변수를 설정합니다.
 
@@ -181,4 +181,4 @@ sudo apt-get install android-tools-adb -y` ``
 
 ## 마무리
 
-자 이제 [첫 빌드](starting-building.md)를 진행할 수 있습니다!
+자 이제 [처음 빌드](starting-building.md)를 진행할 수 있습니다!

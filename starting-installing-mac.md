@@ -46,7 +46,7 @@ Snapdragon Flight로 개발하는 경우 Ubuntu VM을 사용해야 합니다. Qu
 
 ## Simulation
 
-OS X에는 CLANG이 미리 설치되어 있습니다. 추가적인 설치 단계가 필요하지 않습니다.
+OS X에는 CLANG이 미리 설치되어 있습니다. 추가 설치 단계가 필요하지 않습니다.
 
 ## Editor / IDE
 
