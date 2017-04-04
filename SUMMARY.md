@@ -101,7 +101,7 @@
   * [Flight Log 분석](flight_log_analysis.md)
   * [EKF Log Replay](ekf2_log_replay.md)
   * [시스템 규모로 Replay](advanced-replay.md)
-  * [Intel RealSense R200에 드라이버 설치하기](advanced-realsense_intel.md)
+  * [Intel RealSense R200 드라이버 설치하기](advanced-realsense_intel.md)
   * [Parrot Bebop](advanced-bebop.md)
   * [Gimbal \(Mount\) Control 설정](advanced-gimbal-control.md)
   * [State Estimators 변경](advanced-switching_state_estimators.md)
