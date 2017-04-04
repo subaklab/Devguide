@@ -70,7 +70,7 @@
 * [Robotics에서 DroneKit 사용하기](robotics-using-dronekit.md)
   * [DroneKit 사용법](dronekit-example.md)
 * [Robotics에서 ROS 사용하기](robotics-using-ros.md)
-  * [Linux엥서 Offboard 제어](offboard-control.md)
+  * [Linux Offboard 제어](offboard-control.md)
   * [RPi에 ROS 설치](ros-raspberrypi-installation.md)
   * [MAVROS \(MAVLink on ROS\)](ros-mavros-installation.md)
   * [MAVROS offboard 예제](ros-mavros-offboard.md)
@@ -83,8 +83,8 @@
     * [UAVCAN Bootloader](uavcan-bootloader-installation.md)
     * [UAVCAN Firmware 업그레이드](uavcan-node-firmware.md)
     * [UAVCAN 설정](uavcan-node-enumeration.md)
-  * [PWM \/ GPIO](pwm-gpio-intro.md)
-  * [UART](uart-intro.md)
+  * [PWM \/ GPIO](pwm-gpio-intro.md)
+  * [UART](uart-intro.md)
     * [uLanding Radar](uart-ulanding-radar.md)
 * 디버깅과 고급 주제
 
